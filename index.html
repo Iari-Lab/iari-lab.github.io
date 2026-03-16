@@ -4,6 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IARI Labs - 3D Spatial Acoustic Intelligence Platform</title>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVN5NKC27N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NVN5NKC27N');
+  </script>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="IARI Labs - 3D Spatial Acoustic Intelligence Platform. Detect anomalies, prevent failures, and optimize operations with cutting-edge acoustic array technology powered by advanced beamforming and machine learning.">
+  <meta name="keywords" content="acoustic intelligence, beamforming, anomaly detection, predictive maintenance, 3D sound localization, industrial IoT, machine learning, leak detection, spatial audio">
+  <meta name="author" content="IARI Labs">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://iari.io/">
+
+  <!-- Open Graph (Facebook/LinkedIn) -->
+  <meta property="og:title" content="IARI Labs - 3D Spatial Acoustic Intelligence Platform">
+  <meta property="og:description" content="Detect anomalies, prevent failures, and optimize operations with cutting-edge acoustic array technology powered by advanced beamforming and machine learning.">
+  <meta property="og:image" content="https://iari.io/assets/og-image.png">
+  <meta property="og:url" content="https://iari.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="IARI Labs">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IARI Labs - 3D Spatial Acoustic Intelligence Platform">
+  <meta name="twitter:description" content="Detect anomalies, prevent failures, and optimize operations with cutting-edge acoustic array technology.">
+  <meta name="twitter:image" content="https://iari.io/assets/og-image.png">
+
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "IARI Labs",
+    "url": "https://iari.io",
+    "logo": "https://iari.io/assets/logo.png",
+    "description": "3D Spatial Acoustic Intelligence Platform - Detect anomalies, prevent failures, and optimize operations with cutting-edge acoustic array technology.",
+    "email": "info@iari.io",
+    "sameAs": [
+      "https://www.linkedin.com/company/iari-labs"
+    ],
+    "founder": [
+      {
+        "@type": "Person",
+        "name": "Camilo Soto",
+        "jobTitle": "CEO"
+      },
+      {
+        "@type": "Person",
+        "name": "Andrés Calderón",
+        "jobTitle": "CTO"
+      },
+      {
+        "@type": "Person",
+        "name": "Carlos Camargo",
+        "jobTitle": "CHO"
+      }
+    ]
+  }
+  </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,7 +78,7 @@
       color: #1a1a2e;
       line-height: 1.6;
     }
-    
+
     /* Gradient theme from logo */
     .gradient-text {
       background: linear-gradient(135deg, #0097A7 0%, #00BCD4 50%, #7B1FA2 100%);
@@ -25,7 +89,7 @@
     .gradient-bg {
       background: linear-gradient(135deg, #0097A7 0%, #00BCD4 50%, #7B1FA2 100%);
     }
-    
+
     /* Navigation */
     nav {
       position: fixed;
@@ -44,7 +108,7 @@
     nav ul { display: flex; gap: 32px; list-style: none; }
     nav a { text-decoration: none; color: #444; font-weight: 500; transition: color 0.3s; }
     nav a:hover { color: #0097A7; }
-    
+
     /* Hero Section */
     .hero {
       min-height: 100vh;
@@ -73,7 +137,7 @@
       transform: translateY(-3px);
       box-shadow: 0 10px 30px rgba(0, 151, 167, 0.4);
     }
-    
+
     /* Sections */
     section {
       padding: 100px 48px;
@@ -93,7 +157,7 @@
       max-width: 700px;
       margin: 0 auto;
     }
-    
+
     /* What We Do Section */
     .what-we-do {
       background: #fff;
@@ -282,7 +346,7 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 25px rgba(0, 151, 167, 0.4);
     }
-    
+
     /* Demo Section */
     .demo-section {
       background: linear-gradient(180deg, #0a1628 0%, #1a2a4a 100%);
@@ -302,7 +366,7 @@
       height: 700px;
       border: none;
     }
-    
+
     /* Beamforming Section */
     .beamforming {
       background: #f5f5f5;
@@ -342,7 +406,7 @@
       width: 100%;
       display: block;
     }
-    
+
     /* Team Section */
     .team {
       background: #fff;
@@ -396,7 +460,7 @@
       color: #666;
       font-size: 0.95rem;
     }
-    
+
     /* Footer */
     footer {
       padding: 48px;
@@ -405,7 +469,7 @@
     }
     footer p { opacity: 0.8; }
     footer img { height: 50px; margin-bottom: 16px; }
-    
+
     /* Responsive */
     @media (max-width: 900px) {
       .what-we-do-grid, .team-grid {
@@ -436,7 +500,7 @@
     <div class="hero-content">
       <img src="assets/logo.png" alt="IARI Labs Logo">
       <h1><span class="gradient-text">3D Spatial Acoustic Intelligence</span></h1>
-      <p>Detect anomalies, prevent failures, and optimize operations with our cutting-edge acoustic array technology powered by advanced beamforming and AI.</p>
+      <p>Detect anomalies, prevent failures, and optimize operations with our cutting-edge acoustic array technology powered by advanced beamforming using Machine learning.</p>
       <a href="#demo" class="cta-btn gradient-bg">See It In Action</a>
     </div>
   </section>
@@ -458,25 +522,25 @@
         <li>Predictive maintenance insights</li>
       </ul>
     </div>
-    
+
     <!-- Enhanced Carousel with Controls -->
     <div class="carousel-wrapper">
       <!-- Arrow Buttons -->
-      <button class="carousel-btn prev" onclick="moveSlide(-1)">&#10094;</button>
-      <button class="carousel-btn next" onclick="moveSlide(1)">&#10095;</button>
-      
+      <button class="carousel-btn prev" onclick="moveSlide(-1)" aria-label="Previous slide">&#10094;</button>
+      <button class="carousel-btn next" onclick="moveSlide(1)" aria-label="Next slide">&#10095;</button>
+
       <!-- Images -->
       <div class="carousel">
-        <img src="assets/gif1.jpg" alt="Acoustic Detection 1">
-        <img src="assets/gif2.jpg" alt="Acoustic Detection 2">
-        <img src="assets/gif3.jpg" alt="Acoustic Detection 3">
+        <img src="assets/gif1.jpg" alt="Acoustic Detection visualization showing 3D sound localization">
+        <img src="assets/gif2.jpg" alt="Beamforming technology detecting equipment anomalies">
+        <img src="assets/gif3.jpg" alt="Real-time acoustic monitoring dashboard">
       </div>
-      
+
       <!-- Dot Indicators -->
       <div class="carousel-dots">
-        <span class="carousel-dot active" onclick="goToSlide(0)"></span>
-        <span class="carousel-dot" onclick="goToSlide(1)"></span>
-        <span class="carousel-dot" onclick="goToSlide(2)"></span>
+        <span class="carousel-dot active" onclick="goToSlide(0)" aria-label="Go to slide 1"></span>
+        <span class="carousel-dot" onclick="goToSlide(1)" aria-label="Go to slide 2"></span>
+        <span class="carousel-dot" onclick="goToSlide(2)" aria-label="Go to slide 3"></span>
       </div>
     </div>
   </section>
@@ -500,22 +564,22 @@
     </div>
     <div class="video-container">
       <div class="video-wrapper">
-        <iframe 
-          src="https://www.youtube.com/embed/b0D928bSs8o?autoplay=1&mute=1" 
-          title="Video 1"
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        <iframe
+          src="https://www.youtube.com/embed/b0D928bSs8o?autoplay=1&mute=1"
+          title="IARI Labs Beamforming Prototype Demo Video 1"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen>
         </iframe>
       </div>
-      
+
       <!-- Video 2: New video -->
       <div class="video-wrapper">
-        <iframe 
-          src="https://www.youtube.com/embed/jlNcl9_JLg8?autoplay=1&mute=1" 
-          title="Video 2"
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        <iframe
+          src="https://www.youtube.com/embed/jlNcl9_JLg8?autoplay=1&mute=1"
+          title="IARI Labs Acoustic Array Hardware Development Video 2"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen>
         </iframe>
       </div>
@@ -534,8 +598,8 @@
         <h3>Camilo Soto</h3>
         <div class="role">CEO</div>
         <p>Computer scientist with 10+ years of experience in FPGAs, embedded systems, and computer vision. Passionate about bringing complex algorithms to hardware for real-world impact.</p>
-        <a href="https://www.linkedin.com/in/tucanae47/" target="_blank" class="linkedin-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <a href="https://www.linkedin.com/in/tucanae47/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
         </a>
       </div>
@@ -544,8 +608,8 @@
         <h3>Andrés Calderón</h3>
         <div class="role">CTO</div>
         <p>Computer scientist with 20+ years building devices from microcontrollers to FPGAs and neural accelerators. Specializes in signal processing and AI inference on edge devices.</p>
-        <a href="https://www.linkedin.com/in/andres-calderen-de-restrepo/" target="_blank" class="linkedin-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <a href="https://www.linkedin.com/in/andres-calderen-de-restrepo/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
         </a>
       </div>
@@ -554,8 +618,8 @@
         <h3>Carlos Camargo, Phd</h3>
         <div class="role">CHO</div>
         <p>Electrical engineer with 20+ years of experience in embedded systems, Linux embedded, and HW/SW co-design. Bridges hardware and software to create cohesive system architectures.</p>
-        <a href="https://www.linkedin.com/in/carlos-camargo-8031b943/" target="_blank" class="linkedin-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        <a href="https://www.linkedin.com/in/carlos-camargo-8031b943/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
         </a>
       </div>
@@ -582,12 +646,12 @@
     <div style="background: white; padding: 16px 24px; border-radius: 12px; display: inline-block; margin-bottom: 16px;">
       <img src="assets/logo.png" alt="IARI Labs" style="height: 50px; display: block;">
     </div>
-    <p style="margin-top: 8px;">info@iari.io</p>
+    <p style="margin-top: 8px;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cda4a3aba28da4acbfa4e3a4a2">[email&#160;protected]</a></p>
     <p>&copy; 2026 IARI Labs. All rights reserved.</p>
   </footer>
 
   <!-- Carousel JavaScript -->
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const carousel = document.querySelector('.carousel');
     const dots = document.querySelectorAll('.carousel-dot');
     const totalSlides = document.querySelectorAll('.carousel img').length;
@@ -603,18 +667,18 @@
     // Move slide by direction (-1 for prev, 1 for next)
     function moveSlide(direction) {
       currentSlide += direction;
-      
+
       // Loop around
       if (currentSlide < 0) currentSlide = totalSlides - 1;
       if (currentSlide >= totalSlides) currentSlide = 0;
-      
+
       updateCarousel();
     }
 
     // Update carousel position and dots
     function updateCarousel() {
       carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-      
+
       // Update active dot
       dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === currentSlide);
