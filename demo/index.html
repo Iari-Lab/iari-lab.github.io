@@ -9,9 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0b0a; --panel: #151514; --panel2: #1f1f1d; --line: rgba(255,255,255,0.08);
-      --text: #f0efea; --muted: #9a9a93; --teal: #ff6a2a; --teal2: #d93c0e; --violet: #c084fc;
-      --hot: #ffcc33; --warn: #ff7a45; --ok: #34d399; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      --bg: #f4f4f1; --panel: #ffffff; --panel2: #f4f4f1; --line: #e3e3df;
+      --text: #2d2d2a; --muted: #6b6b66; --teal: #ff4a1a; --teal2: #d93c0e; --violet: #c084fc;
+      --hot: #ffcc33; --warn: #d93c0e; --ok: #1f9d6a; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { background: var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif; }
@@ -26,12 +26,12 @@
     @keyframes blink { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
     .stats { display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--muted); }
     .stats b { color: var(--text); font-weight: 600; }
-    .grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 12px; }
+    .grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 12px; align-items: start; }
     .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
     .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600;
       padding: 10px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
     .card h3 small { font-family: var(--mono); letter-spacing: 0; text-transform: none; font-weight: 500; }
-    .scene-wrap { position: relative; aspect-ratio: 1280 / 706; background: #000; cursor: crosshair; }
+    .scene-wrap { position: relative; aspect-ratio: 1280 / 706; background: #e9e9e5; cursor: crosshair; }
     .scene-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
     .hint { position: absolute; left: 12px; bottom: 10px; font-size: 12px; color: #cdd6e3; background: rgba(5,10,20,.6);
       padding: 6px 10px; border-radius: 6px; pointer-events: none; backdrop-filter: blur(4px); }
@@ -39,11 +39,11 @@
     .controls .sep { flex: 1; }
     button { font: inherit; font-size: 13px; font-weight: 600; color: var(--text); background: var(--panel2); border: 1px solid var(--line);
       padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: background .15s, border-color .15s, transform .1s; }
-    button:hover { background: #2a2a27; border-color: rgba(255,106,42,.5); }
+    button:hover { background: #fff5f0; border-color: rgba(255,74,26,.5); }
     button:active { transform: translateY(1px); }
     button.src { border-left: 3px solid var(--c, var(--teal)); }
-    button.src.active { background: rgba(255,106,42,.16); border-color: var(--teal); }
-    button.toggle.on { background: rgba(255,106,42,.16); border-color: var(--teal); color: #ffd3c2; }
+    button.src.active { background: rgba(255,74,26,.10); border-color: var(--teal); }
+    button.toggle.on { background: rgba(255,74,26,.10); border-color: var(--teal); color: var(--teal2); }
     .right { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
     .spec { height: 170px; display: block; width: 100%; }
     .cls { padding: 12px 14px; }
@@ -51,13 +51,13 @@
     .cls .lead b { font-family: "Space Grotesk", sans-serif; font-size: 20px; letter-spacing: .02em; }
     .cls .lead span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
     .bar { display: grid; grid-template-columns: 110px 1fr 44px; gap: 8px; align-items: center; font-size: 12px; margin: 5px 0; color: var(--muted); }
-    .bar i { height: 8px; border-radius: 4px; background: #2a2a27; overflow: hidden; display: block; }
-    .bar i b { display: block; height: 100%; width: 0; background: #6b6b66; transition: width .5s ease; }
+    .bar i { height: 8px; border-radius: 4px; background: #ebebe7; overflow: hidden; display: block; }
+    .bar i b { display: block; height: 100%; width: 0; background: #b9b9b2; transition: width .5s ease; }
     .bar.top { color: var(--text); }
     .bar.top i b { background: linear-gradient(90deg, #ff9a3c, var(--hot)); }
     .bar em { font-style: normal; font-family: var(--mono); text-align: right; }
     .log { font-family: var(--mono); font-size: 12px; line-height: 1.5; padding: 8px 14px; height: 168px; overflow-y: auto; color: var(--muted); }
-    .log div { display: grid; grid-template-columns: 64px 1fr auto; gap: 10px; padding: 3px 0; border-bottom: 1px dashed rgba(255,255,255,.05); }
+    .log div { display: grid; grid-template-columns: 64px 1fr auto; gap: 10px; padding: 3px 0; border-bottom: 1px dashed rgba(0,0,0,.08); }
     .log div b { color: var(--text); font-weight: 600; }
     .log div span:last-child { color: var(--warn); }
     .log div.ok span:last-child { color: var(--ok); }
@@ -75,9 +75,9 @@
 </head>
 <body>
   <div class="top">
-    <div class="brand"><img src="../assets/logo-mark-256.png" alt=""> IARI acoustic camera <span>· interactive simulation</span></div>
+    <div class="brand"><img src="../assets/logo-mark-256.png" alt=""> IARI acoustic camera <span>· synchronised arrays · simulation</span></div>
     <div class="stats">
-      <span>array <b>60/60</b> mics</span><span>maps <b id="fps">23.1</b>/s</span><span>link <b>1.4 Mbit/s</b></span><span>NPU <b>online</b></span>
+      <span>arrays <b>5</b> · synced</span><span>mics <b>300</b></span><span>maps <b id="fps">23.1</b>/s</span><span>NPU <b>online</b></span>
     </div>
     <div class="live"><i class="dot"></i> LIVE <span id="clock">00:00:00</span></div>
   </div>
@@ -113,7 +113,7 @@
       </div>
       <div class="card array">
         <canvas id="arr"></canvas>
-        <p><b>60 MEMS</b> microphones on a hexagonal array, <b>FPGA</b> beamformer, <b>NPU</b> classifier.<br>Beam width follows the wavelength: low tones paint wide, hisses paint sharp.</p>
+        <p><b>5 arrays</b> of <b>60 MEMS</b> microphones on the walls, one shared clock. Each array steers a beam at the loudest source; where the beams cross is the position. Low tones paint wide, hisses paint sharp.</p>
       </div>
     </div>
   </div>
@@ -129,6 +129,8 @@
     { id:'belt',    name:'BELT SLIP',     machine:'Conveyor 3',                 x:0.335, y:0.835, f0:1600, bw:300,  kind:'squeal', color:'#9c4dcc', sev:'warn' },
     { id:'motor',   name:'MOTOR · NORMAL',machine:'Robot arm · cell 3',         x:0.300, y:0.345, f0:1200, bw:200,  kind:'tonal', color:'#34d399', sev:'ok' },
   ];
+  // the five arrays mounted on the walls of the illustration; they share one clock
+  const ARRAYS = [{ x: 0.068, y: 0.30 }, { x: 0.23, y: 0.12 }, { x: 0.59, y: 0.087 }, { x: 0.76, y: 0.25 }, { x: 0.93, y: 0.43 }];
   const CLASSES = ['Air leak','Bearing wear','Arcing','Valve chatter','Belt slip','Motor (normal)','Background'];
   const CLASS_OF = { leak:0, bearing:1, arc:2, valve:3, belt:4, motor:5 };
 
@@ -239,12 +241,44 @@
     if (!W) return;
     ctx.clearRect(0, 0, W, H);
     if (img.complete && img.naturalWidth) ctx.drawImage(img, 0, 0, W, H);
-    ctx.fillStyle = 'rgba(4,8,18,0.42)'; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = 'rgba(30,30,28,0.20)'; ctx.fillRect(0, 0, W, H);
+    // wall arrays: a faint coverage cone each, a beam at the source when there is one
+    const sx = pos.x * W, sy = pos.y * H;
+    ARRAYS.forEach((a, i) => {
+      const ax = a.x * W, ay = a.y * H;
+      const toC = Math.atan2(0.62 * H - ay, 0.5 * W - ax);
+      const reach = Math.max(W, H) * 0.7;
+      const cone = ctx.createRadialGradient(ax, ay, 0, ax, ay, reach);
+      cone.addColorStop(0, 'rgba(255,90,30,0.10)'); cone.addColorStop(1, 'rgba(255,90,30,0)');
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.arc(ax, ay, reach, toC - 0.42, toC + 0.42); ctx.closePath(); ctx.fillStyle = cone; ctx.fill();
+      if (level > 0.02 && active) {
+        const ang = Math.atan2(sy - ay, sx - ax), d = Math.hypot(sx - ax, sy - ay), hw = 0.035;
+        const beam = ctx.createLinearGradient(ax, ay, sx, sy);
+        beam.addColorStop(0, `rgba(255,74,26,${(0.26 * level).toFixed(3)})`); beam.addColorStop(1, `rgba(255,74,26,${(0.05 * level).toFixed(3)})`);
+        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.arc(ax, ay, d, ang - hw, ang + hw); ctx.closePath(); ctx.fillStyle = beam; ctx.fill();
+        // one synchronised pulse travelling down every beam at the same phase
+        const ph = (now / 1400) % 1, px = ax + (sx - ax) * ph, py = ay + (sy - ay) * ph;
+        ctx.beginPath(); ctx.arc(px, py, 3, 0, Math.PI * 2); ctx.fillStyle = `rgba(217,60,14,${(0.9 * level * (1 - ph * 0.6)).toFixed(3)})`; ctx.fill();
+      }
+      // the array itself: a small hexagon that blinks in sync with the others
+      const blink = 0.55 + 0.45 * Math.sin(now / 500);
+      ctx.beginPath();
+      for (let k = 0; k < 6; k++) { const t = k / 6 * Math.PI * 2 + Math.PI / 6; const r = 7; k ? ctx.lineTo(ax + r * Math.cos(t), ay + r * Math.sin(t)) : ctx.moveTo(ax + r * Math.cos(t), ay + r * Math.sin(t)); }
+      ctx.closePath(); ctx.fillStyle = `rgba(255,120,60,${(0.35 + 0.6 * blink * (0.4 + 0.6 * level)).toFixed(3)})`; ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 1; ctx.stroke();
+    });
+    // ripples spreading from the source
+    if (level > 0.02 && active) {
+      for (let k = 0; k < 3; k++) {
+        const t = ((now / 1600) + k / 3) % 1, rr = t * Math.min(W, H) * 0.35;
+        ctx.beginPath(); ctx.arc(sx, sy, rr, 0, Math.PI * 2); ctx.strokeStyle = `rgba(217,60,14,${(0.4 * (1 - t) * level).toFixed(3)})`; ctx.lineWidth = 1.2; ctx.stroke();
+      }
+    }
     // machine markers
     SOURCES.forEach((s) => {
       ctx.beginPath(); ctx.arc(s.x * W, s.y * H, 5, 0, Math.PI * 2);
-      ctx.fillStyle = active === s ? s.color : 'rgba(255,255,255,0.35)'; ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = active === s ? s.color : 'rgba(45,45,42,0.35)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 1; ctx.stroke();
     });
     if (level > 0.02 && active) {
       const f = active.f0;
@@ -260,7 +294,7 @@
       });
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
       // crosshair at the peak
-      ctx.strokeStyle = 'rgba(0,255,255,0.9)'; ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(28,28,26,0.95)'; ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.moveTo(cx - 10, cy); ctx.lineTo(cx + 10, cy); ctx.moveTo(cx, cy - 10); ctx.lineTo(cx, cy + 10); ctx.stroke();
       // label
       const conf = Math.round(100 * (0.55 + 0.42 * level));
@@ -279,18 +313,18 @@
   function drawSpectrum() {
     const w = spec.getBoundingClientRect().width, h = 170; sctx.clearRect(0, 0, w, h);
     const n = specNow.length, padL = 30, padB = 18;
-    sctx.strokeStyle = 'rgba(255,255,255,0.06)'; sctx.lineWidth = 1;
+    sctx.strokeStyle = 'rgba(0,0,0,0.07)'; sctx.lineWidth = 1;
     for (let db = -60; db <= 0; db += 20) { const y = 8 + (h - padB - 8) * (-db / 70); sctx.beginPath(); sctx.moveTo(padL, y); sctx.lineTo(w - 6, y); sctx.stroke(); }
-    sctx.fillStyle = '#6b7a93'; sctx.font = '10px ui-monospace, monospace'; sctx.textBaseline = 'middle';
+    sctx.fillStyle = '#8a8a84'; sctx.font = '10px ui-monospace, monospace'; sctx.textBaseline = 'middle';
     for (let db = -60; db <= 0; db += 20) sctx.fillText(db, 4, 8 + (h - padB - 8) * (-db / 70));
     for (let k = 0; k <= 12; k += 3) { const x = padL + (w - padL - 6) * (k / 12); sctx.fillText(k + 'k', x - 6, h - 7); }
-    const grad = sctx.createLinearGradient(0, 0, 0, h); grad.addColorStop(0, 'rgba(255,204,51,0.6)'); grad.addColorStop(0.5, 'rgba(255,106,42,0.35)'); grad.addColorStop(1, 'rgba(255,106,42,0.02)');
+    const grad = sctx.createLinearGradient(0, 0, 0, h); grad.addColorStop(0, 'rgba(255,204,51,0.65)'); grad.addColorStop(0.5, 'rgba(255,74,26,0.30)'); grad.addColorStop(1, 'rgba(255,74,26,0.02)');
     sctx.beginPath(); sctx.moveTo(padL, h - padB);
     for (let i = 0; i < n; i++) { const x = padL + (w - padL - 6) * (i / (n - 1)); const y = 8 + (h - padB - 8) * (-Math.max(-70, Math.min(0, specNow[i])) / 70); sctx.lineTo(x, y); }
     sctx.lineTo(w - 6, h - padB); sctx.closePath(); sctx.fillStyle = grad; sctx.fill();
     sctx.beginPath();
     for (let i = 0; i < n; i++) { const x = padL + (w - padL - 6) * (i / (n - 1)); const y = 8 + (h - padB - 8) * (-Math.max(-70, Math.min(0, specNow[i])) / 70); i ? sctx.lineTo(x, y) : sctx.moveTo(x, y); }
-    sctx.strokeStyle = '#ffb38a'; sctx.lineWidth = 1.5; sctx.stroke();
+    sctx.strokeStyle = '#d93c0e'; sctx.lineWidth = 1.5; sctx.stroke();
   }
   function drawArray(now) {
     actx.clearRect(0, 0, 92, 92);
@@ -303,10 +337,10 @@
         const ph = 0.5 + 0.5 * Math.sin(now / 300 - ring * 0.9 + i * 0.3);
         const lit = level * ph;
         actx.beginPath(); actx.arc(x, y, 2.6, 0, Math.PI * 2);
-        actx.fillStyle = `rgba(${lit > 0.5 ? 255 : 160},${lit > 0.5 ? 204 : 160},${lit > 0.5 ? 51 : 150},${0.25 + 0.75 * lit})`; actx.fill(); k++;
+        actx.fillStyle = `rgba(${lit > 0.5 ? 255 : 150},${lit > 0.5 ? 90 : 150},${lit > 0.5 ? 30 : 145},${0.35 + 0.65 * lit})`; actx.fill(); k++;
       }
     }
-    actx.strokeStyle = 'rgba(255,255,255,0.12)'; actx.beginPath();
+    actx.strokeStyle = 'rgba(0,0,0,0.12)'; actx.beginPath();
     for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2 + Math.PI / 6; const x = c + 44 * Math.cos(a), y = c + 44 * Math.sin(a); i ? actx.lineTo(x, y) : actx.moveTo(x, y); }
     actx.closePath(); actx.stroke();
   }
