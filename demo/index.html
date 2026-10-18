@@ -3,587 +3,362 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acoustic Monitoring System v3.2</title>
-  <link rel="stylesheet" href="https://unpkg.com/uplot@1.6.28/dist/uPlot.min.css">
-  <script src="https://unpkg.com/uplot@1.6.28/dist/uPlot.iife.min.js"></script>
+  <title>IARI Labs · Acoustic camera demo</title>
+  <meta name="description" content="Interactive simulation of the IARI Labs acoustic camera: a plant floor where you place sound sources and watch the sound map, spectrum and classifier respond.">
+  <link rel="icon" href="../assets/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0b0b0a; --panel: #151514; --panel2: #1f1f1d; --line: rgba(255,255,255,0.08);
+      --text: #f0efea; --muted: #9a9a93; --teal: #ff6a2a; --teal2: #d93c0e; --violet: #c084fc;
+      --hot: #ffcc33; --warn: #ff7a45; --ok: #34d399; --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
-      color: #e0e0e0;
-      min-height: 100vh;
-      padding: 16px;
+    html, body { background: var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif; }
+    body { padding: 12px; }
+    .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      padding: 10px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: "Outfit", Inter, sans-serif; font-weight: 600; }
+    .brand img { height: 26px; }
+    .brand span { color: var(--muted); font-weight: 500; font-size: 13px; }
+    .live { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-family: var(--mono); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); animation: blink 1.6s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+    .stats { display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .stats b { color: var(--text); font-weight: 600; }
+    .grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 12px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600;
+      padding: 10px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    .card h3 small { font-family: var(--mono); letter-spacing: 0; text-transform: none; font-weight: 500; }
+    .scene-wrap { position: relative; aspect-ratio: 1280 / 706; background: #000; cursor: crosshair; }
+    .scene-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .hint { position: absolute; left: 12px; bottom: 10px; font-size: 12px; color: #cdd6e3; background: rgba(5,10,20,.6);
+      padding: 6px 10px; border-radius: 6px; pointer-events: none; backdrop-filter: blur(4px); }
+    .controls { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 12px; border-top: 1px solid var(--line); align-items: center; }
+    .controls .sep { flex: 1; }
+    button { font: inherit; font-size: 13px; font-weight: 600; color: var(--text); background: var(--panel2); border: 1px solid var(--line);
+      padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: background .15s, border-color .15s, transform .1s; }
+    button:hover { background: #2a2a27; border-color: rgba(255,106,42,.5); }
+    button:active { transform: translateY(1px); }
+    button.src { border-left: 3px solid var(--c, var(--teal)); }
+    button.src.active { background: rgba(255,106,42,.16); border-color: var(--teal); }
+    button.toggle.on { background: rgba(255,106,42,.16); border-color: var(--teal); color: #ffd3c2; }
+    .right { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+    .spec { height: 170px; display: block; width: 100%; }
+    .cls { padding: 12px 14px; }
+    .cls .lead { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+    .cls .lead b { font-family: "Space Grotesk", sans-serif; font-size: 20px; letter-spacing: .02em; }
+    .cls .lead span { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    .bar { display: grid; grid-template-columns: 110px 1fr 44px; gap: 8px; align-items: center; font-size: 12px; margin: 5px 0; color: var(--muted); }
+    .bar i { height: 8px; border-radius: 4px; background: #2a2a27; overflow: hidden; display: block; }
+    .bar i b { display: block; height: 100%; width: 0; background: #6b6b66; transition: width .5s ease; }
+    .bar.top { color: var(--text); }
+    .bar.top i b { background: linear-gradient(90deg, #ff9a3c, var(--hot)); }
+    .bar em { font-style: normal; font-family: var(--mono); text-align: right; }
+    .log { font-family: var(--mono); font-size: 12px; line-height: 1.5; padding: 8px 14px; height: 168px; overflow-y: auto; color: var(--muted); }
+    .log div { display: grid; grid-template-columns: 64px 1fr auto; gap: 10px; padding: 3px 0; border-bottom: 1px dashed rgba(255,255,255,.05); }
+    .log div b { color: var(--text); font-weight: 600; }
+    .log div span:last-child { color: var(--warn); }
+    .log div.ok span:last-child { color: var(--ok); }
+    .array { display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
+    .array canvas { width: 92px; height: 92px; flex: none; }
+    .array p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .array p b { color: var(--text); font-family: var(--mono); }
+    @media (max-width: 900px) {
+      body { padding: 8px; }
+      .grid { grid-template-columns: 1fr; }
+      .stats { display: none; }
+      .log { height: 140px; }
     }
-    
-    /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 20px;
-      background: rgba(20, 40, 70, 0.8);
-      border: 1px solid #2a4a7a;
-      border-radius: 8px;
-      margin-bottom: 16px;
-    }
-    .header-left { display: flex; align-items: center; gap: 12px; }
-    .logo { 
-      width: 40px; height: 40px; 
-      background: linear-gradient(135deg, #00d4ff, #0088cc);
-      border-radius: 50%; 
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold; font-size: 14px;
-    }
-    .header h1 { font-size: 20px; color: #00d4ff; }
-    .header h1 span { color: #64748b; font-size: 14px; margin-left: 8px; }
-    .time { font-size: 28px; font-weight: 600; color: #fff; font-family: monospace; }
-    .status-bar { display: flex; gap: 24px; }
-    .status-item { display: flex; align-items: center; gap: 8px; }
-    .status-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .status-dot.green { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-    .status-dot.blue { background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
-    
-    /* Main Grid */
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    
-    /* Cards */
-    .card {
-      background: rgba(15, 30, 55, 0.9);
-      border: 1px solid #2a4a7a;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .card-header {
-      padding: 12px 16px;
-      border-bottom: 1px solid #2a4a7a;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .card-title { 
-      font-size: 12px; 
-      text-transform: uppercase; 
-      letter-spacing: 1px; 
-      color: #94a3b8; 
-    }
-    .card-content { padding: 16px; }
-    
-    /* Heat Map Card */
-    .heatmap-container {
-      position: relative;
-      height: 280px;
-      background: linear-gradient(180deg, #0a1628 0%, #1a2a4a 100%);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .heat-spot {
-      position: absolute;
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    .heat-spot.primary {
-      width: 80px; height: 80px;
-      top: 30%; left: 35%;
-      background: radial-gradient(circle, rgba(255,100,0,0.9) 0%, rgba(255,0,0,0.6) 40%, rgba(0,100,255,0.3) 70%, transparent 100%);
-    }
-    .heat-spot.secondary {
-      width: 50px; height: 50px;
-      top: 55%; left: 55%;
-      background: radial-gradient(circle, rgba(255,200,0,0.8) 0%, rgba(255,100,0,0.5) 50%, transparent 100%);
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.9; }
-      50% { transform: scale(1.1); opacity: 1; }
-    }
-    .intensity-bar {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 20px;
-      height: 150px;
-      background: linear-gradient(to top, #0000ff, #00ffff, #00ff00, #ffff00, #ff0000);
-      border-radius: 4px;
-    }
-    .intensity-label {
-      position: absolute;
-      right: 35px;
-      font-size: 10px;
-      color: #94a3b8;
-    }
-    .intensity-label.high { top: calc(50% - 75px); }
-    .intensity-label.low { top: calc(50% + 65px); }
-    .peak-label {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      font-size: 11px;
-      color: #94a3b8;
-    }
-    .peak-label span { color: #00d4ff; font-weight: 600; }
-    
-    /* Spectrogram */
-    .spectrogram {
-      height: 150px;
-      background: linear-gradient(to top, 
-        rgba(0,0,100,0.3) 0%, 
-        rgba(0,100,100,0.4) 30%, 
-        rgba(100,100,0,0.5) 60%, 
-        rgba(200,50,0,0.6) 80%, 
-        rgba(255,200,0,0.8) 100%
-      );
-      position: relative;
-      border-radius: 4px;
-    }
-    .spectrogram-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 8px,
-        rgba(255,150,0,0.3) 8px,
-        rgba(255,150,0,0.3) 10px
-      );
-    }
-    .spectrogram-labels {
-      display: flex;
-      justify-content: space-between;
-      padding: 4px 0;
-      font-size: 10px;
-      color: #64748b;
-    }
-    
-    /* Alerts */
-    .alerts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-    .alert-card {
-      padding: 12px;
-      border-radius: 6px;
-      border-left: 4px solid;
-    }
-    .alert-card.critical {
-      background: rgba(220, 38, 38, 0.15);
-      border-left-color: #dc2626;
-    }
-    .alert-card.warning {
-      background: rgba(245, 158, 11, 0.15);
-      border-left-color: #f59e0b;
-    }
-    .alert-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .alert-icon {
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px;
-    }
-    .alert-card.critical .alert-icon { background: #dc2626; }
-    .alert-card.warning .alert-icon { background: #f59e0b; }
-    .alert-title { font-weight: 600; font-size: 12px; }
-    .alert-card.critical .alert-title { color: #fca5a5; }
-    .alert-card.warning .alert-title { color: #fcd34d; }
-    .alert-details { font-size: 11px; color: #94a3b8; line-height: 1.6; }
-    .alert-details strong { color: #e0e0e0; }
-    .view-details-btn {
-      margin-top: 8px;
-      padding: 4px 12px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 4px;
-      color: #94a3b8;
-      font-size: 10px;
-      cursor: pointer;
-    }
-    
-    /* Sensor Array */
-    .sensor-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      max-width: 200px;
-      margin: 0 auto;
-    }
-    .sensor-hex {
-      width: 50px; height: 45px;
-      background: rgba(30, 60, 100, 0.5);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-    .sensor-hex.active {
-      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
-      box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
-    }
-    .sensor-hex.alert {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-      animation: sensor-pulse 1.5s ease-in-out infinite;
-    }
-    @keyframes sensor-pulse {
-      0%, 100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
-      50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.8); }
-    }
-    .sensor-status {
-      text-align: center;
-      margin-top: 12px;
-      padding: 8px;
-      background: rgba(34, 197, 94, 0.15);
-      border-radius: 4px;
-      font-size: 11px;
-      color: #22c55e;
-    }
-    
-    /* Control Panel */
-    .control-panel {
-      background: rgba(20, 40, 70, 0.6);
-      border-radius: 6px;
-      padding: 12px;
-    }
-    .control-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 12px;
-    }
-    .control-label { color: #94a3b8; }
-    .control-value { 
-      background: rgba(0,0,0,0.3);
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-family: monospace;
-      color: #00d4ff;
-    }
-    .control-slider {
-      width: 120px;
-      height: 6px;
-      background: #1a2a4a;
-      border-radius: 3px;
-      position: relative;
-    }
-    .control-slider::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 70%;
-      background: linear-gradient(90deg, #00d4ff, #0088cc);
-      border-radius: 3px;
-    }
-    .maintenance-badge {
-      background: rgba(245, 158, 11, 0.2);
-      color: #fcd34d;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 10px;
-    }
-    .control-buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-top: 16px;
-    }
-    .control-btn {
-      padding: 8px;
-      background: rgba(0, 100, 150, 0.3);
-      border: 1px solid #2a4a7a;
-      border-radius: 6px;
-      color: #94a3b8;
-      font-size: 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .control-btn:hover {
-      background: rgba(0, 150, 200, 0.4);
-      color: #fff;
-    }
-    .control-btn .icon {
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-    
-    /* Bottom Row */
-    .bottom-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    
-    /* uPlot customization */
-    .u-legend { font-size: 11px !important; }
-    .u-series th { padding: 4px 8px !important; }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="header-left">
-      <div class="logo">AMS</div>
-      <h1>ACOUSTIC MONITORING SYSTEM <span>v3.2</span></h1>
+  <div class="top">
+    <div class="brand"><img src="../assets/logo-mark-256.png" alt=""> IARI acoustic camera <span>· interactive simulation</span></div>
+    <div class="stats">
+      <span>array <b>60/60</b> mics</span><span>maps <b id="fps">23.1</b>/s</span><span>link <b>1.4 Mbit/s</b></span><span>NPU <b>online</b></span>
     </div>
-    <div class="time" id="clock">14:32:15</div>
-    <div class="status-bar">
-      <div class="status-item">
-        <span>SYSTEM:</span>
-        <span class="status-dot green"></span>
-        <span style="color:#22c55e">ONLINE</span>
-      </div>
-      <div class="status-item">
-        <span>SENSORS:</span>
-        <span class="status-dot green"></span>
-        <span style="color:#22c55e">OK</span>
-      </div>
-      <div class="status-item">
-        <span>NETWORK:</span>
-        <span class="status-dot blue"></span>
-        <span style="color:#3b82f6">STABLE</span>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Grid -->
-  <div class="main-grid">
-    <!-- Left Column -->
-    <div>
-      <!-- Acoustic Camera Heat Map -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Acoustic Camera Heat Map</span>
-        </div>
-        <div class="card-content">
-          <div class="heatmap-container">
-            <div class="heat-spot primary"></div>
-            <div class="heat-spot secondary"></div>
-            <div class="intensity-bar"></div>
-            <span class="intensity-label high">High</span>
-            <span class="intensity-label low">Low</span>
-            <div class="peak-label">PEAK: <span>38.0 kHz, -12.3 dB</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- FFT Spectrum - Interactive uPlot Chart -->
-      <div class="card" style="margin-top: 16px;">
-        <div class="card-header">
-          <span class="card-title">FFT Spectrum - Anomaly Peaks</span>
-        </div>
-        <div class="card-content">
-          <div id="fft-chart"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right Column -->
-    <div>
-      <!-- Spectrogram -->
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Spectrogram</span>
-        </div>
-        <div class="card-content">
-          <div style="display: flex; align-items: flex-start; gap: 8px;">
-            <div style="font-size: 10px; color: #64748b; writing-mode: vertical-rl; transform: rotate(180deg);">Frequency (kHz)</div>
-            <div style="flex: 1;">
-              <div style="display: flex; justify-content: space-between; font-size: 10px; color: #64748b; margin-bottom: 4px;">
-                <span>50 kHz</span><span>40 kHz</span><span>30 kHz</span><span>20 kHz</span><span>10 kHz</span>
-              </div>
-              <div class="spectrogram">
-                <div class="spectrogram-overlay"></div>
-              </div>
-              <div class="spectrogram-labels">
-                <span>-10</span><span>-8</span><span>-6</span><span>-4</span><span>-2</span><span>0</span>
-              </div>
-              <div style="text-align: center; font-size: 10px; color: #64748b;">Time (s)</div>
-            </div>
-            <div style="width: 60px; font-size: 9px; color: #64748b;">
-              <div style="height: 150px; background: linear-gradient(to bottom, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff); border-radius: 4px; margin-bottom: 4px;"></div>
-              <div style="display: flex; justify-content: space-between;"><span>0</span><span>-40 dB</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Alerts -->
-      <div class="alerts-grid">
-        <div class="alert-card critical">
-          <div class="alert-header">
-            <div class="alert-icon">!</div>
-            <span class="alert-title">PNEUMATIC LEAK DETECTED</span>
-          </div>
-          <div class="alert-details">
-            <strong>Location:</strong> Robot Arm Actuator - Station 3<br>
-            <strong>Frequency:</strong> 38.2 kHz<br>
-            <strong>Sound Level:</strong> 87 dB<br>
-            <strong>Estimated Pressure:</strong> 90 PSI<br>
-            <strong>Cost Impact:</strong> $2,400/year
-          </div>
-          <button class="view-details-btn">VIEW DETAILS</button>
-        </div>
-        <div class="alert-card warning">
-          <div class="alert-header">
-            <div class="alert-icon">⚠</div>
-            <span class="alert-title">MECHANICAL ANOMALY DETECTED</span>
-          </div>
-          <div class="alert-details">
-            <strong>Location:</strong> Robot Arm Joint 2 - Station 3<br>
-            <strong>Frequency:</strong> 5.2 kHz<br>
-            <strong>Vibration Level:</strong> 28 dB<br>
-            <strong>Likely Cause:</strong> Bearing Wear<br>
-            <strong>Severity:</strong> MEDIUM-HIGH
-          </div>
-          <button class="view-details-btn">VIEW DETAILS</button>
-        </div>
-      </div>
-    </div>
+    <div class="live"><i class="dot"></i> LIVE <span id="clock">00:00:00</span></div>
   </div>
 
-  <!-- Bottom Row -->
-  <div class="bottom-row">
-    <!-- Frequency Response Chart -->
+  <div class="grid">
     <div class="card">
-      <div class="card-header">
-        <span class="card-title">Frequency Response - Dual Microphone Comparison</span>
+      <h3>Sound map <small id="peak">peak — · — dB</small></h3>
+      <div class="scene-wrap" id="scene">
+        <canvas id="cv"></canvas>
+        <div class="hint" id="hint">Click a machine or move the cursor over the floor to place a sound source</div>
       </div>
-      <div class="card-content">
-        <div id="freq-response-chart"></div>
+      <div class="controls" id="controls">
+        <span class="sep"></span>
+        <button class="toggle on" id="autoBtn">Auto tour</button>
+        <button class="toggle on" id="cursorBtn">Follow cursor</button>
+        <button id="quietBtn">Quiet</button>
       </div>
     </div>
 
-    <!-- Sensor Array & Control Panel -->
-    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 16px;">
-      <!-- Sensor Array -->
+    <div class="right">
       <div class="card">
-        <div class="card-header">
-          <span class="card-title">Sensor Array Status</span>
-        </div>
-        <div class="card-content">
-          <div class="sensor-grid">
-            <div class="sensor-hex active">ID 1</div>
-            <div class="sensor-hex active">ID 2</div>
-            <div class="sensor-hex active">ID 3</div>
-            <div class="sensor-hex alert">ID 4</div>
-            <div class="sensor-hex active">ID 5</div>
-            <div class="sensor-hex active">ID 6</div>
-          </div>
-          <div class="sensor-status">ARRAY STATUS: OPTIMAL - 6/6 ACTIVE</div>
-        </div>
+        <h3>Spectrum <small>0 – 12 kHz · dB</small></h3>
+        <canvas id="spec" class="spec"></canvas>
       </div>
-
-      <!-- Control Panel -->
+      <div class="card cls">
+        <h3 style="margin:-12px -14px 10px">Classifier <small>on-device NPU · 0.5 s</small></h3>
+        <div class="lead"><b id="clsName">—</b><span id="clsInfo">listening</span></div>
+        <div id="bars"></div>
+      </div>
       <div class="card">
-        <div class="card-header">
-          <span class="card-title">Control Panel</span>
-          <span class="maintenance-badge">PRIORITY MAINTENANCE REQUIRED</span>
-        </div>
-        <div class="card-content">
-          <div class="control-panel">
-            <div class="control-row">
-              <span class="control-label">Frequency Range</span>
-              <span class="control-value">0-50 kHz</span>
-            </div>
-            <div class="control-row">
-              <span class="control-label">Gain</span>
-              <div class="control-slider"></div>
-            </div>
-            <div class="control-row">
-              <span class="control-label">Sensitivity</span>
-              <span class="control-value">85%</span>
-            </div>
-            <div class="control-buttons">
-              <div class="control-btn"><div class="icon">▶</div>LIVE VIEW</div>
-              <div class="control-btn"><div class="icon">⏺</div>RECORD</div>
-              <div class="control-btn"><div class="icon">📷</div>SNAPSHOT</div>
-              <div class="control-btn"><div class="icon">⚙</div>SETTINGS</div>
-            </div>
-          </div>
-        </div>
+        <h3>Events <small id="evCount">0</small></h3>
+        <div class="log" id="log"></div>
+      </div>
+      <div class="card array">
+        <canvas id="arr"></canvas>
+        <p><b>60 MEMS</b> microphones on a hexagonal array, <b>FPGA</b> beamformer, <b>NPU</b> classifier.<br>Beam width follows the wavelength: low tones paint wide, hisses paint sharp.</p>
       </div>
     </div>
   </div>
 
-  <script>
-    // Clock update
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').textContent = now.toTimeString().split(' ')[0];
-    }
-    setInterval(updateClock, 1000);
+<script>
+(() => {
+  // ---- the plant floor and its sound sources (positions are fractions of the scene image) ----
+  const SOURCES = [
+    { id:'leak',    name:'AIR LEAK',      machine:'Pneumatic gripper · cell 2', x:0.455, y:0.545, f0:8200, bw:2200, kind:'hiss',  color:'#ffcc33', sev:'warn' },
+    { id:'bearing', name:'BEARING WEAR',  machine:'CNC spindle · line B',       x:0.685, y:0.415, f0:2400, bw:120,  kind:'tonal', color:'#ff7a45', sev:'warn' },
+    { id:'arc',     name:'ARCING',        machine:'Control cabinet · bay 4',    x:0.825, y:0.855, f0:11000, bw:3000, kind:'crackle', color:'#f05d8a', sev:'warn' },
+    { id:'valve',   name:'VALVE CHATTER', machine:'Press · cell 1',             x:0.155, y:0.700, f0:900,  bw:60,   kind:'tonal', color:'#ffd3c2', sev:'warn' },
+    { id:'belt',    name:'BELT SLIP',     machine:'Conveyor 3',                 x:0.335, y:0.835, f0:1600, bw:300,  kind:'squeal', color:'#9c4dcc', sev:'warn' },
+    { id:'motor',   name:'MOTOR · NORMAL',machine:'Robot arm · cell 3',         x:0.300, y:0.345, f0:1200, bw:200,  kind:'tonal', color:'#34d399', sev:'ok' },
+  ];
+  const CLASSES = ['Air leak','Bearing wear','Arcing','Valve chatter','Belt slip','Motor (normal)','Background'];
+  const CLASS_OF = { leak:0, bearing:1, arc:2, valve:3, belt:4, motor:5 };
 
-    // Generate FFT data with anomaly peaks
-    function generateFFTData() {
-      const x = [], y = [];
-      for (let i = 0; i <= 50; i += 0.5) {
-        x.push(i);
-        let val = -50 + Math.random() * 10;
-        if (Math.abs(i - 5.2) < 0.5) val = -25 + Math.random() * 5;
-        if (Math.abs(i - 10) < 0.3) val = -30 + Math.random() * 3;
-        if (Math.abs(i - 15) < 0.3) val = -35 + Math.random() * 3;
-        if (Math.abs(i - 38) < 0.5) val = -12 + Math.random() * 3;
-        y.push(val);
+  const scene = document.getElementById('scene'), cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  const spec = document.getElementById('spec'), sctx = spec.getContext('2d');
+  const arr = document.getElementById('arr'), actx = arr.getContext('2d');
+  const img = new Image(); img.src = '../assets/gif3.jpg';
+  let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function fit() {
+    const r = scene.getBoundingClientRect(); W = r.width; H = r.height;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const s = spec.getBoundingClientRect(); spec.width = Math.round(s.width * dpr); spec.height = Math.round(s.height * dpr); sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    arr.width = 92 * dpr; arr.height = 92 * dpr; actx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    postHeight();
+  }
+  let postedH = 0;
+  function postHeight() {
+    const h = Math.ceil(document.body.getBoundingClientRect().height);   // the content, not the viewport
+    if (Math.abs(h - postedH) < 4) return; postedH = h;
+    try { parent.postMessage({ type: 'iari-demo-height', h }, '*'); } catch (e) {}
+  }
+  window.addEventListener('resize', fit); fit(); img.onload = fit;
+
+  // ---- state ----
+  let active = null;          // current source object (or a cursor source)
+  let auto = true, follow = true, tourIdx = -1, tourTimer = 0;
+  let level = 0;              // 0..1 "coherence" of the current detection, eased
+  let pos = { x: 0.5, y: 0.5 }, target = { x: 0.5, y: 0.5 };
+  let probs = CLASSES.map(() => 0), tProbs = CLASSES.map(() => 0);
+  let specNow = new Float32Array(160).fill(-62);
+  let lastLogged = null, evCount = 0, lastT = performance.now();
+
+  const bars = document.getElementById('bars');
+  CLASSES.forEach((c) => {
+    const d = document.createElement('div'); d.className = 'bar';
+    d.innerHTML = `<span>${c}</span><i><b></b></i><em>0%</em>`; bars.appendChild(d);
+  });
+
+  function setSource(src, fromCursor) {
+    active = src; target = { x: src.x, y: src.y };
+    if (!fromCursor) {
+      document.querySelectorAll('button.src').forEach((b) => b.classList.toggle('active', b.dataset.id === src.id));
+      logEvent(src);
+    }
+    document.getElementById('hint').style.opacity = 0;
+  }
+  function quiet() {
+    active = null; lastLogged = null;
+    document.querySelectorAll('button.src').forEach((b) => b.classList.remove('active'));
+  }
+  function logEvent(src) {
+    if (lastLogged === src.id) return; lastLogged = src.id;
+    const log = document.getElementById('log'); const t = new Date().toTimeString().slice(0, 8);
+    const d = document.createElement('div'); d.className = src.sev;
+    d.innerHTML = `<span>${t}</span><span><b>${src.name}</b> · ${src.machine}</span><span>${(src.f0/1000).toFixed(1)} kHz</span>`;
+    log.prepend(d); while (log.children.length > 40) log.lastChild.remove();
+    document.getElementById('evCount').textContent = ++evCount;
+  }
+
+  // buttons
+  const controls = document.getElementById('controls');
+  SOURCES.forEach((s) => {
+    const b = document.createElement('button'); b.className = 'src'; b.dataset.id = s.id; b.textContent = s.name.replace(' · NORMAL', '');
+    b.style.setProperty('--c', s.color); b.onclick = () => { auto = false; autoBtn.classList.remove('on'); setSource(s); };
+    controls.insertBefore(b, controls.querySelector('.sep'));
+  });
+  const autoBtn = document.getElementById('autoBtn'), cursorBtn = document.getElementById('cursorBtn');
+  autoBtn.onclick = () => { auto = !auto; autoBtn.classList.toggle('on', auto); tourTimer = 0; };
+  cursorBtn.onclick = () => { follow = !follow; cursorBtn.classList.toggle('on', follow); };
+  document.getElementById('quietBtn').onclick = () => { auto = false; autoBtn.classList.remove('on'); quiet(); };
+
+  // cursor: the mouse is a broadband source you can move around; clicking a machine selects it
+  let cursorSrc = { id: 'cursor', name: 'UNKNOWN SOURCE', machine: 'cursor', x: 0.5, y: 0.5, f0: 3000, bw: 1500, kind: 'hiss', color: '#f0efea', sev: 'warn' };
+  let hovering = false, hoverTimeout = 0;
+  function nearest(fx, fy) {
+    let best = null, bd = 1e9;
+    SOURCES.forEach((s) => { const d = Math.hypot((s.x - fx) * 1.8, s.y - fy); if (d < bd) { bd = d; best = s; } });
+    return bd < 0.09 ? best : null;
+  }
+  scene.addEventListener('pointermove', (e) => {
+    if (!follow || e.pointerType === 'touch') return;
+    const r = scene.getBoundingClientRect(); const fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    const near = nearest(fx, fy);
+    hovering = true; clearTimeout(hoverTimeout);
+    if (near) { if (active !== near) { active = near; target = { x: near.x, y: near.y }; } }
+    else { cursorSrc.x = fx; cursorSrc.y = fy; active = cursorSrc; target = { x: fx, y: fy }; }
+    document.getElementById('hint').style.opacity = 0;
+  });
+  scene.addEventListener('pointerleave', () => { hovering = false; hoverTimeout = setTimeout(() => { if (active === cursorSrc) active = null; }, 400); });
+  scene.addEventListener('pointerdown', (e) => {
+    const r = scene.getBoundingClientRect(); const fx = (e.clientX - r.left) / r.width, fy = (e.clientY - r.top) / r.height;
+    const near = nearest(fx, fy);
+    auto = false; autoBtn.classList.remove('on');
+    if (near) setSource(near); else { cursorSrc.x = fx; cursorSrc.y = fy; setSource(cursorSrc, true); }
+  });
+
+  // ---- drawing ----
+  function heatColor(t) { // 0..1 -> inferno-like, like the prototype's overlay
+    const stops = [[0, 20, 10, 40], [0.25, 90, 20, 120], [0.5, 200, 60, 110], [0.75, 250, 140, 40], [1, 255, 240, 120]];
+    for (let i = 1; i < stops.length; i++) if (t <= stops[i][0]) {
+      const a = stops[i - 1], b = stops[i], u = (t - a[0]) / (b[0] - a[0]);
+      return [a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u, a[3] + (b[3] - a[3]) * u];
+    }
+    return [255, 240, 120];
+  }
+  function drawScene(now) {
+    if (!W) return;
+    ctx.clearRect(0, 0, W, H);
+    if (img.complete && img.naturalWidth) ctx.drawImage(img, 0, 0, W, H);
+    ctx.fillStyle = 'rgba(4,8,18,0.42)'; ctx.fillRect(0, 0, W, H);
+    // machine markers
+    SOURCES.forEach((s) => {
+      ctx.beginPath(); ctx.arc(s.x * W, s.y * H, 5, 0, Math.PI * 2);
+      ctx.fillStyle = active === s ? s.color : 'rgba(255,255,255,0.35)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1; ctx.stroke();
+    });
+    if (level > 0.02 && active) {
+      const f = active.f0;
+      const breathe = 1 + 0.05 * Math.sin(now / 260);
+      const base = Math.min(W, H) * (0.10 + 0.46 * Math.min(1, 1800 / f)); // wider beam at low frequency
+      const R = base * breathe * (0.6 + 0.4 * level);
+      const jx = Math.sin(now / 410) * 3 + Math.sin(now / 97) * 1.5, jy = Math.cos(now / 370) * 3;
+      const cx = pos.x * W + jx, cy = pos.y * H + jy;
+      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+      const a = 0.92 * level;
+      [[0, 1], [0.18, 0.85], [0.42, 0.55], [0.7, 0.25], [1, 0]].forEach(([p, t]) => {
+        const c = heatColor(t); g.addColorStop(p, `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${(a * (p < 1 ? (0.95 - p * 0.75) : 0)).toFixed(3)})`);
+      });
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill();
+      // crosshair at the peak
+      ctx.strokeStyle = 'rgba(0,255,255,0.9)'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(cx - 10, cy); ctx.lineTo(cx + 10, cy); ctx.moveTo(cx, cy - 10); ctx.lineTo(cx, cy + 10); ctx.stroke();
+      // label
+      const conf = Math.round(100 * (0.55 + 0.42 * level));
+      const label = `${active.name}  ·  ${(f / 1000).toFixed(1)} kHz  ·  ${conf}%`;
+      ctx.font = `600 ${Math.max(12, W / 62)}px "Outfit", Inter, sans-serif`;
+      const tw = ctx.measureText(label).width + 20, th = Math.max(24, W / 36);
+      let lx = cx + 16, ly = cy - th - 12; if (lx + tw > W - 8) lx = cx - tw - 16; if (ly < 8) ly = cy + 16;
+      ctx.fillStyle = 'rgba(5,10,20,0.78)'; ctx.fillRect(lx, ly, tw, th);
+      ctx.fillStyle = active.color; ctx.fillRect(lx, ly, 3, th);
+      ctx.fillStyle = '#f2f6fb'; ctx.textBaseline = 'middle'; ctx.fillText(label, lx + 12, ly + th / 2);
+      document.getElementById('peak').textContent = `peak (${(pos.x * 2 - 1).toFixed(2)}, ${(1 - pos.y * 2).toFixed(2)}) · ${(38 + 30 * level).toFixed(0)} dB`;
+    } else {
+      document.getElementById('peak').textContent = 'peak — · — dB';
+    }
+  }
+  function drawSpectrum() {
+    const w = spec.getBoundingClientRect().width, h = 170; sctx.clearRect(0, 0, w, h);
+    const n = specNow.length, padL = 30, padB = 18;
+    sctx.strokeStyle = 'rgba(255,255,255,0.06)'; sctx.lineWidth = 1;
+    for (let db = -60; db <= 0; db += 20) { const y = 8 + (h - padB - 8) * (-db / 70); sctx.beginPath(); sctx.moveTo(padL, y); sctx.lineTo(w - 6, y); sctx.stroke(); }
+    sctx.fillStyle = '#6b7a93'; sctx.font = '10px ui-monospace, monospace'; sctx.textBaseline = 'middle';
+    for (let db = -60; db <= 0; db += 20) sctx.fillText(db, 4, 8 + (h - padB - 8) * (-db / 70));
+    for (let k = 0; k <= 12; k += 3) { const x = padL + (w - padL - 6) * (k / 12); sctx.fillText(k + 'k', x - 6, h - 7); }
+    const grad = sctx.createLinearGradient(0, 0, 0, h); grad.addColorStop(0, 'rgba(255,204,51,0.6)'); grad.addColorStop(0.5, 'rgba(255,106,42,0.35)'); grad.addColorStop(1, 'rgba(255,106,42,0.02)');
+    sctx.beginPath(); sctx.moveTo(padL, h - padB);
+    for (let i = 0; i < n; i++) { const x = padL + (w - padL - 6) * (i / (n - 1)); const y = 8 + (h - padB - 8) * (-Math.max(-70, Math.min(0, specNow[i])) / 70); sctx.lineTo(x, y); }
+    sctx.lineTo(w - 6, h - padB); sctx.closePath(); sctx.fillStyle = grad; sctx.fill();
+    sctx.beginPath();
+    for (let i = 0; i < n; i++) { const x = padL + (w - padL - 6) * (i / (n - 1)); const y = 8 + (h - padB - 8) * (-Math.max(-70, Math.min(0, specNow[i])) / 70); i ? sctx.lineTo(x, y) : sctx.moveTo(x, y); }
+    sctx.strokeStyle = '#ffb38a'; sctx.lineWidth = 1.5; sctx.stroke();
+  }
+  function drawArray(now) {
+    actx.clearRect(0, 0, 92, 92);
+    const c = 46, r = 38; let k = 0;
+    for (let ring = 0; ring <= 4; ring++) {
+      const cnt = ring === 0 ? 1 : ring * 6; const rr = r * ring / 4;
+      for (let i = 0; i < cnt; i++) {
+        if (k >= 60 && ring === 4) break;
+        const a = (i / cnt) * Math.PI * 2 + ring * 0.2; const x = c + rr * Math.cos(a), y = c + rr * Math.sin(a);
+        const ph = 0.5 + 0.5 * Math.sin(now / 300 - ring * 0.9 + i * 0.3);
+        const lit = level * ph;
+        actx.beginPath(); actx.arc(x, y, 2.6, 0, Math.PI * 2);
+        actx.fillStyle = `rgba(${lit > 0.5 ? 255 : 160},${lit > 0.5 ? 204 : 160},${lit > 0.5 ? 51 : 150},${0.25 + 0.75 * lit})`; actx.fill(); k++;
       }
-      return [x, y];
     }
+    actx.strokeStyle = 'rgba(255,255,255,0.12)'; actx.beginPath();
+    for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2 + Math.PI / 6; const x = c + 44 * Math.cos(a), y = c + 44 * Math.sin(a); i ? actx.lineTo(x, y) : actx.moveTo(x, y); }
+    actx.closePath(); actx.stroke();
+  }
 
-    // FFT Spectrum Chart
-    const fftData = generateFFTData();
-    new uPlot({
-      width: document.querySelector('#fft-chart').clientWidth,
-      height: 200,
-      scales: { x: { time: false }, y: { range: [-60, 0] } },
-      series: [
-        { label: "Frequency (kHz)" },
-        { label: "Amplitude (dB)", stroke: "#00d4ff", width: 1.5, fill: "rgba(0, 212, 255, 0.1)" }
-      ],
-      axes: [
-        { stroke: "#64748b", grid: { stroke: "#1a2a4a" } },
-        { stroke: "#64748b", grid: { stroke: "#1a2a4a" }, side: 3 }
-      ]
-    }, fftData, document.getElementById('fft-chart'));
-
-    // Frequency Response Chart
-    function generateMicData() {
-      const x = [], mic1 = [], mic2 = [];
-      for (let i = 0; i < 100; i++) {
-        x.push(i);
-        mic1.push(Math.sin(i * 0.1) * 20 + Math.random() * 5 + 10);
-        mic2.push(Math.sin(i * 0.1 + 0.5) * 18 + Math.random() * 4 + 8);
+  // ---- simulation step ----
+  function step(now) {
+    const dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
+    // auto tour
+    if (auto && !hovering) { tourTimer -= dt; if (tourTimer <= 0) { tourIdx = (tourIdx + 1) % (SOURCES.length + 1); tourTimer = tourIdx === SOURCES.length ? 2.5 : 5.5; tourIdx === SOURCES.length ? quiet() : setSource(SOURCES[tourIdx]); } }
+    // level and position easing
+    const want = active ? 1 : 0; level += (want - level) * Math.min(1, dt * (active ? 4 : 6));
+    pos.x += (target.x - pos.x) * Math.min(1, dt * 5); pos.y += (target.y - pos.y) * Math.min(1, dt * 5);
+    // classifier probabilities
+    const tgt = CLASSES.map(() => 0.015);
+    if (active) { const ci = CLASS_OF[active.id]; if (ci !== undefined) tgt[ci] = 0.6 + 0.35 * level; else { tgt[6] = 0.35; tgt[0] = 0.25; tgt[4] = 0.2; } }
+    else tgt[6] = 0.9;
+    const sum = tgt.reduce((a, b) => a + b, 0); for (let i = 0; i < tgt.length; i++) { tProbs[i] = tgt[i] / sum; probs[i] += (tProbs[i] - probs[i]) * Math.min(1, dt * 3); }
+    // spectrum: noise floor + source shape
+    const n = specNow.length;
+    for (let i = 0; i < n; i++) {
+      const f = 12000 * i / (n - 1); let v = -58 + Math.random() * 5 - 8 * (f / 12000);
+      if (active && level > 0.05) {
+        const g = (fc, bw, amp) => amp * Math.exp(-0.5 * Math.pow((f - fc) / bw, 2));
+        let s = 0;
+        if (active.kind === 'tonal') { for (let hN = 1; hN <= 5; hN++) s += g(active.f0 * hN, Math.max(60, active.bw) * hN, 1 / hN); }
+        else if (active.kind === 'squeal') { s += g(active.f0, active.bw, 1) + g(active.f0 * 2.02, active.bw * 1.6, 0.5); }
+        else if (active.kind === 'crackle') { s += g(active.f0, active.bw, 0.8) + (f > 5000 ? 0.25 + Math.random() * 0.2 : 0); }
+        else { s += g(active.f0, active.bw, 1) + (f > active.f0 - 2 * active.bw ? 0.15 : 0); }
+        v += 52 * level * Math.min(1, s) + Math.random() * 3;
       }
-      return [x, mic1, mic2];
+      specNow[i] += (v - specNow[i]) * Math.min(1, dt * 10);
     }
+  }
 
-    const micData = generateMicData();
-    new uPlot({
-      width: document.querySelector('#freq-response-chart').clientWidth,
-      height: 180,
-      scales: { x: { time: false }, y: { range: [-20, 50] } },
-      series: [
-        { label: "Sample" },
-        { label: "MIC-A1", stroke: "#3b82f6", width: 2 },
-        { label: "MIC-B2", stroke: "#ef4444", width: 2 }
-      ],
-      axes: [
-        { stroke: "#64748b", grid: { stroke: "#1a2a4a" } },
-        { stroke: "#64748b", grid: { stroke: "#1a2a4a" }, side: 3, label: "Amplitude" }
-      ],
-      legend: { show: true }
-    }, micData, document.getElementById('freq-response-chart'));
+  // ---- ui updates (cheap ones every frame, DOM ones at 4 Hz) ----
+  let uiT = 0;
+  function updateUI(now) {
+    if (now - uiT < 250) return; uiT = now;
+    const order = probs.map((p, i) => [p, i]).sort((a, b) => b[0] - a[0]);
+    const top = order[0];
+    document.getElementById('clsName').textContent = top[0] > 0.45 ? CLASSES[top[1]].toUpperCase() : 'LISTENING';
+    document.getElementById('clsInfo').textContent = top[0] > 0.45 ? `p=${top[0].toFixed(2)} · ${active && active.machine !== 'cursor' ? active.machine : 'unmapped position'}` : 'no event above threshold';
+    const rows = bars.children;
+    for (let i = 0; i < CLASSES.length; i++) { rows[i].classList.toggle('top', i === top[1] && top[0] > 0.45); rows[i].querySelector('b').style.width = (probs[i] * 100).toFixed(0) + '%'; rows[i].querySelector('em').textContent = (probs[i] * 100).toFixed(0) + '%'; }
+    document.getElementById('clock').textContent = new Date().toTimeString().slice(0, 8);
+    document.getElementById('fps').textContent = (23.1 + (Math.random() - 0.5) * 0.4).toFixed(1);
+  }
 
-    window.addEventListener('resize', () => location.reload());
-  </script>
+  function frame(now) { step(now); drawScene(now); drawSpectrum(); drawArray(now); updateUI(now); requestAnimationFrame(frame); }
+  requestAnimationFrame(frame);
+  setTimeout(postHeight, 600); setTimeout(postHeight, 2000);
+})();
+</script>
 </body>
 </html>
