@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IARI Labs - 3D Spatial Acoustic Intelligence Platform</title>
+  <title>IARI Labs — Acoustic intelligence for industry</title>
 
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVN5NKC27N"></script>
@@ -14,28 +14,26 @@
     gtag('config', 'G-NVN5NKC27N');
   </script>
 
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="IARI Labs - 3D Spatial Acoustic Intelligence Platform. Detect anomalies, prevent failures, and optimize operations with cutting-edge acoustic array technology powered by advanced beamforming and machine learning.">
-  <meta name="keywords" content="acoustic intelligence, beamforming, anomaly detection, predictive maintenance, 3D sound localization, industrial IoT, machine learning, leak detection, spatial audio">
+  <!-- SEO -->
+  <meta name="description" content="IARI Labs builds acoustic cameras for industry: a 60-microphone array and an edge processor that locate, classify and flag abnormal sounds in real time. Leaks, bearing wear, arcing and valve faults, found before they stop production.">
+  <meta name="keywords" content="acoustic camera, acoustic imaging, beamforming, microphone array, predictive maintenance, leak detection, partial discharge, industrial IoT, edge AI, sound localization">
   <meta name="author" content="IARI Labs">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://iari.io/">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
 
-  <!-- Open Graph (Facebook/LinkedIn) -->
-  <meta property="og:title" content="IARI Labs - 3D Spatial Acoustic Intelligence Platform">
-  <meta property="og:description" content="Detect anomalies, prevent failures, and optimize operations with cutting-edge acoustic array technology powered by advanced beamforming and machine learning.">
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="IARI Labs — Acoustic intelligence for industry">
+  <meta property="og:description" content="See the sound. Find the fault first. A 60-microphone acoustic camera with on-device AI that locates and names abnormal sounds on the plant floor.">
   <meta property="og:image" content="https://iari.io/assets/og-image.png">
   <meta property="og:url" content="https://iari.io/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="IARI Labs">
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="IARI Labs - 3D Spatial Acoustic Intelligence Platform">
-  <meta name="twitter:description" content="Detect anomalies, prevent failures, and optimize operations with cutting-edge acoustic array technology.">
+  <meta name="twitter:title" content="IARI Labs — Acoustic intelligence for industry">
+  <meta name="twitter:description" content="See the sound. Find the fault first. A 60-microphone acoustic camera with on-device AI for industrial monitoring.">
   <meta name="twitter:image" content="https://iari.io/assets/og-image.png">
 
-  <!-- Structured Data (Schema.org) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -43,660 +41,534 @@
     "name": "IARI Labs",
     "url": "https://iari.io",
     "logo": "https://iari.io/assets/logo.png",
-    "description": "3D Spatial Acoustic Intelligence Platform - Detect anomalies, prevent failures, and optimize operations with cutting-edge acoustic array technology.",
+    "description": "Acoustic cameras for industry: a 60-microphone array and an edge processor that locate, classify and flag abnormal sounds in real time.",
     "email": "info@iari.io",
-    "sameAs": [
-      "https://www.linkedin.com/company/iari-labs"
-    ],
+    "address": {"@type": "PostalAddress", "addressLocality": "Berlin", "addressRegion": "Mitte", "addressCountry": "DE"},
+    "sameAs": ["https://www.linkedin.com/company/iari-labs"],
     "founder": [
-      {
-        "@type": "Person",
-        "name": "Camilo Soto",
-        "jobTitle": "CEO"
-      },
-      {
-        "@type": "Person",
-        "name": "Andrés Calderón",
-        "jobTitle": "CTO"
-      },
-      {
-        "@type": "Person",
-        "name": "Carlos Camargo",
-        "jobTitle": "CHO"
-      }
+      {"@type": "Person", "name": "Camilo Soto", "jobTitle": "CEO"},
+      {"@type": "Person", "name": "Andrés Calderón", "jobTitle": "CTO"},
+      {"@type": "Person", "name": "Carlos Camargo", "jobTitle": "CHO"}
     ]
   }
   </script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+
   <style>
+    /* Layout: white paper, grey rounded sheets for alternating sections, one black sheet for the demo. */
+    :root {
+      --bg: #ffffff; --panel: #f4f4f1; --panel2: #e9e9e5; --line: #e3e3df; --line2: #cfcfc9;
+      --ink: #1c1c1a; --text: #2d2d2a; --muted: #6b6b66; --faint: #9c9c96;
+      --accent: #ff4a1a; --accent-ink: #d93c0e; --accent-soft: #ffe8df;
+      --dark: #0d0d0c; --dark2: #181816; --dark-line: #2a2a27; --on-dark: #f4f4f1; --on-dark-muted: #a6a6a0;
+      --display: "Outfit", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+      --body: "Inter", "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      --gutter: 24px; --max: 1180px; --r: 28px; --r2: 20px;
+    }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #fafafa;
-      color: #1a1a2e;
-      line-height: 1.6;
-    }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { font-family: var(--body); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+    .grad-text { color: var(--accent); }
+    .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 16px; }
+    h1, h2, h3, h4 { font-family: var(--display); font-weight: 500; letter-spacing: -0.015em; line-height: 1.1; color: var(--ink); text-wrap: balance; }
+    h2 { font-size: clamp(2rem, 3.8vw, 3rem); font-weight: 400; margin-bottom: 16px; }
+    .lead { font-size: clamp(1.05rem, 1.5vw, 1.2rem); color: var(--muted); max-width: 680px; }
+    section { padding: 96px 0; position: relative; }
+    section.alt { background: var(--panel); border-radius: var(--r); margin: 0 12px; }
+    section.alt + section.alt { margin-top: 12px; }
+    section.dark { background: var(--dark); color: var(--on-dark); border-radius: var(--r); margin: 0 12px; }
+    section.dark h2 { color: var(--on-dark); }
+    section.dark .lead { color: var(--on-dark-muted); }
+    .section-head { max-width: 760px; margin-bottom: 48px; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px; border-radius: 999px; font-weight: 500; font-size: 1rem;
+      text-decoration: none; border: 1px solid transparent; transition: transform .2s, background .2s, border-color .2s, color .2s; cursor: pointer; font-family: inherit; }
+    .btn-primary { background: var(--ink); color: #fff; }
+    .btn-primary:hover { background: #000; transform: translateY(-1px); }
+    .btn-ghost { border-color: var(--line2); color: var(--ink); background: transparent; }
+    .btn-ghost:hover { border-color: var(--ink); }
+    .btn svg { width: 18px; height: 18px; }
 
-    /* Gradient theme from logo */
-    .gradient-text {
-      background: linear-gradient(135deg, #0097A7 0%, #00BCD4 50%, #7B1FA2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .gradient-bg {
-      background: linear-gradient(135deg, #0097A7 0%, #00BCD4 50%, #7B1FA2 100%);
-    }
+    /* reveal */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
 
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 16px 48px;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
-    }
-    nav img { height: 40px; }
-    nav ul { display: flex; gap: 32px; list-style: none; }
-    nav a { text-decoration: none; color: #444; font-weight: 500; transition: color 0.3s; }
-    nav a:hover { color: #0097A7; }
-
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 48px 80px;
-      background: linear-gradient(180deg, #fff 0%, #f0f9fa 100%);
-    }
-    .hero-content { max-width: 900px; }
-    .hero img { height: 120px; margin-bottom: 32px; }
-    .hero h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 24px; }
-    .hero p { font-size: 1.4rem; color: #555; margin-bottom: 40px; }
-    .cta-btn {
-      display: inline-block;
-      padding: 16px 40px;
-      border-radius: 50px;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .cta-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 151, 167, 0.4);
-    }
-
-    /* Sections */
-    section {
-      padding: 100px 48px;
-    }
-    .section-title {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-    .section-title h2 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-    .section-title p {
-      font-size: 1.2rem;
-      color: #666;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* What We Do Section */
-    .what-we-do {
-      background: #fff;
-    }
-    .what-we-do-content {
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .what-we-do-content h3 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      color: #0097A7;
-    }
-    .what-we-do-content p {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 16px;
-    }
-    .feature-list {
-      list-style: none;
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 12px;
-      text-align: left;
-      max-width: 800px;
-      margin: 24px auto 0;
-    }
-    .feature-list li {
-      padding: 12px 0;
-      padding-left: 32px;
-      position: relative;
-      font-size: 1.05rem;
-    }
-    .feature-list li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: #0097A7;
-      font-weight: bold;
-    }
-
-    /* Image Carousel with Controls */
-    .carousel-wrapper {
-      position: relative;
-      max-width: 1000px;
-      margin: 50px auto 0;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.2);
-    }
-    .carousel {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-    }
-    .carousel img {
-      width: 100%;
-      flex-shrink: 0;
-      object-fit: cover;
-    }
-
-    /* Arrow Buttons */
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s, transform 0.2s;
-      z-index: 10;
-    }
-    .carousel-btn:hover {
-      background: rgba(0, 0, 0, 0.8);
-      transform: translateY(-50%) scale(1.1);
-    }
-    .carousel-btn.prev {
-      left: 15px;
-    }
-    .carousel-btn.next {
-      right: 15px;
-    }
-
-    /* Dot Indicators */
-    .carousel-dots {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 12px;
-      z-index: 10;
-    }
-    .carousel-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.5);
-      border: 2px solid white;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-    }
-    .carousel-dot:hover {
-      transform: scale(1.2);
-    }
-    .carousel-dot.active {
-      background: white;
-    }
-
-    /* Mobile carousel adjustments */
-    @media (max-width: 600px) {
-      .carousel-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-      }
-      .carousel-btn.prev {
-        left: 10px;
-      }
-      .carousel-btn.next {
-        right: 10px;
-      }
-      .carousel-dots {
-        bottom: 15px;
-        gap: 8px;
-      }
-      .carousel-dot {
-        width: 10px;
-        height: 10px;
-      }
-    }
-
-    /* Contact Section */
-    .contact {
-      background: #f5f5f5;
-    }
-    .contact-form {
-      max-width: 600px;
-      margin: 0 auto;
-      background: white;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    }
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      padding: 14px 18px;
-      margin-bottom: 16px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-      outline: none;
-      border-color: #0097A7;
-    }
-    .contact-form textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-    .contact-form button {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .contact-form button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0, 151, 167, 0.4);
-    }
-
-    /* Demo Section */
-    .demo-section {
-      background: linear-gradient(180deg, #0a1628 0%, #1a2a4a 100%);
-      color: white;
-    }
-    .demo-section .section-title h2 { color: #fff; }
-    .demo-section .section-title p { color: #aaa; }
-    .demo-frame {
-      max-width: 1200px;
-      margin: 0 auto;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-    }
-    .demo-frame iframe {
-      width: 100%;
-      height: 700px;
-      border: none;
-    }
-
-    /* Beamforming Section */
-    .beamforming {
-      background: #f5f5f5;
-    }
-    .video-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .video-wrapper {
-      flex: 1 1 400px;
-      max-width: 560px;
-      min-width: 300px;
-    }
-    .video-wrapper iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 8px;
-    }
-
-    /* Mobile: Stack vertically */
-    @media (max-width: 768px) {
-      .video-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      .video-wrapper {
-        width: 100%;
-        max-width: 100%;
-      }
-    }
-    .video-container video {
-      width: 100%;
-      display: block;
-    }
-
-    /* Team Section */
-    .team {
-      background: #fff;
-    }
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .team-card {
-      text-align: center;
-      padding: 40px 24px;
-      background: #fafafa;
-      border-radius: 16px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .team-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-    }
-    .team-avatar {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      margin: 0 auto 24px;
-      object-fit: cover;
-      border: 4px solid transparent;
-      background: linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, #0097A7, #7B1FA2) border-box;
-    }
-    .linkedin-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 12px;
-      color: #0077B5;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    .linkedin-link:hover { text-decoration: underline; }
-    .team-card h3 { font-size: 1.4rem; margin-bottom: 8px; }
-    .team-card .role {
-      color: #0097A7;
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 16px;
-    }
-    .team-card p {
-      color: #666;
-      font-size: 0.95rem;
-    }
-
-    /* Footer */
-    footer {
-      padding: 48px;
-      text-align: center;
-      color: white;
-    }
-    footer p { opacity: 0.8; }
-    footer img { height: 50px; margin-bottom: 16px; }
-
-    /* Responsive */
+    /* nav */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+    .nav-in { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 24px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-weight: 500; font-size: 1.15rem; letter-spacing: .01em; color: var(--ink); }
+    .logo img { height: 34px; width: auto; }
+    nav ul { display: flex; gap: 28px; list-style: none; align-items: center; }
+    nav ul a { text-decoration: none; color: var(--text); font-weight: 500; font-size: .95rem; transition: color .2s; }
+    nav ul a:hover { color: var(--accent-ink); }
+    nav .btn { padding: 10px 18px; font-size: .9rem; }
+    nav ul a.btn:hover { color: #fff; }
+    .burger { display: none; background: none; border: 1px solid var(--line2); color: var(--ink); width: 42px; height: 42px; border-radius: 10px; cursor: pointer; font-size: 20px; }
     @media (max-width: 900px) {
-      .what-we-do-grid, .team-grid {
-        grid-template-columns: 1fr;
-      }
-      .hero h1 { font-size: 2.5rem; }
-      section { padding: 60px 24px; }
-      nav { padding: 12px 24px; }
-      nav ul { gap: 16px; }
+      nav ul { position: fixed; top: 68px; left: 0; right: 0; flex-direction: column; gap: 0; background: rgba(255,255,255,0.98); border-bottom: 1px solid var(--line); display: none; padding: 8px 0 16px; }
+      nav ul.open { display: flex; }
+      nav ul li { width: 100%; text-align: center; }
+      nav ul a { display: block; padding: 14px; font-size: 1.05rem; }
+      .burger { display: inline-flex; align-items: center; justify-content: center; }
+      .nav-cta { display: none; }
     }
+
+    /* hero */
+    .hero { padding: 150px 0 72px; }
+    .hero h1 { font-size: clamp(2.6rem, 6vw, 4.8rem); font-weight: 400; letter-spacing: -0.025em; line-height: 1.04; margin-bottom: 24px; max-width: 900px; }
+    .hero .lead { font-size: clamp(1.1rem, 1.7vw, 1.3rem); margin-bottom: 32px; max-width: 640px; }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-media { position: relative; margin: 56px 0 36px; border-radius: var(--r); overflow: hidden; background: #000; aspect-ratio: 21 / 9; }
+    .hero-media video { width: 100%; height: 100%; object-fit: cover; }
+    .live-tag { position: absolute; left: 20px; top: 20px; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: #fff;
+      display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.18); padding: 8px 12px; border-radius: 999px; backdrop-filter: blur(6px); }
+    .live-tag i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: blink 1.6s infinite; }
+    @keyframes blink { 0%,100% { opacity: 1 } 50% { opacity: .3 } }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; border-top: 1px solid var(--line); padding-top: 28px; }
+    .stat b { display: block; font-family: var(--display); font-size: 2rem; font-weight: 500; line-height: 1.1; color: var(--ink); }
+    .stat b small { font-size: .6em; color: var(--muted); font-weight: 400; }
+    .stat span { font-size: .88rem; color: var(--muted); }
+    @media (max-width: 700px) {
+      .hero { padding-top: 110px; }
+      .hero-media { aspect-ratio: 4 / 3; margin: 40px 0 28px; border-radius: var(--r2); }
+      .stats { grid-template-columns: repeat(2, 1fr); gap: 20px 24px; }
+      .live-tag { left: 12px; top: 12px; }
+    }
+
+    /* videos */
+    .featured { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr); gap: 36px; align-items: center; margin-bottom: 28px; }
+    .yt { position: relative; aspect-ratio: 16 / 9; border-radius: var(--r2); overflow: hidden; background: #000; cursor: pointer; display: block; text-decoration: none; }
+    .yt img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .yt:hover img { transform: scale(1.03); }
+    .yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .yt .play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 72px; height: 72px; border-radius: 50%; border: 0; cursor: pointer;
+      background: var(--accent); display: grid; place-items: center; transition: transform .2s, background .2s; }
+    .yt .play::after { content: ""; border-style: solid; border-width: 12px 0 12px 20px; border-color: transparent transparent transparent #fff; margin-left: 5px; }
+    .yt:hover .play { transform: translate(-50%, -50%) scale(1.08); }
+    .yt .badge { position: absolute; top: 14px; left: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .14em; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); padding: 6px 10px; border-radius: 999px; color: #fff; }
+    .yt .badge.new { background: var(--accent); border: 0; }
+    .featured-text h3 { font-size: 1.7rem; font-weight: 400; margin-bottom: 12px; }
+    .featured-text p { color: var(--muted); margin-bottom: 18px; }
+    .featured-text ul { list-style: none; display: grid; gap: 8px; }
+    .featured-text li { padding-left: 24px; position: relative; color: var(--text); font-size: .95rem; }
+    .featured-text li::before { content: ""; position: absolute; left: 0; top: 10px; width: 12px; height: 2px; background: var(--accent); }
+    .vgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .vcard .yt { border-radius: 16px; }
+    .vcard .yt .play { width: 54px; height: 54px; }
+    .vcard .yt .play::after { border-width: 9px 0 9px 15px; }
+    .vcard h4 { font-size: 1.1rem; margin: 14px 0 4px; }
+    .vcard p { color: var(--muted); font-size: .92rem; }
+    @media (max-width: 900px) { .featured { grid-template-columns: 1fr; gap: 24px; } }
+
+    /* how it works */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .step { background: var(--panel); border-radius: var(--r2); overflow: hidden; display: flex; flex-direction: column; }
+    .step .pic { aspect-ratio: 4 / 3; overflow: hidden; background: #000; position: relative; }
+    .step .pic img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+    .step:hover .pic img { transform: scale(1.04); }
+    .step .pic .n { position: absolute; left: 14px; top: 14px; width: 34px; height: 34px; border-radius: 50%; background: #fff; display: grid; place-items: center; font-family: var(--display); font-weight: 500; color: var(--ink); }
+    .step .body { padding: 22px 22px 26px; }
+    .step h3 { font-size: 1.3rem; margin-bottom: 8px; }
+    .step p { color: var(--muted); font-size: .95rem; }
+    .pipeline { margin-top: 40px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; font-family: var(--mono); font-size: 12.5px; color: var(--text); }
+    .pipeline span { padding: 10px 14px; border: 1px solid var(--line2); border-radius: 999px; background: #fff; }
+    .pipeline em { color: var(--accent); font-style: normal; }
+    @media (max-width: 900px) { .steps { grid-template-columns: 1fr; } }
+
+    /* industries */
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { background: #fff; border-radius: var(--r2); padding: 26px 24px; transition: transform .25s; }
+    .card:hover { transform: translateY(-3px); }
+    .card .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 18px; background: var(--accent-soft); color: var(--accent-ink); }
+    .card .ico svg { width: 24px; height: 24px; }
+    .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: .94rem; }
+    @media (max-width: 900px) { .cards { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .cards { grid-template-columns: 1fr; } }
+
+    /* demo */
+    .demo-frame { border-radius: var(--r2); overflow: hidden; border: 1px solid var(--dark-line); background: #0a0a0a; }
+    .demo-frame iframe { width: 100%; height: 760px; border: 0; display: block; }
+    .demo-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; font-size: .9rem; color: var(--on-dark-muted); }
+    .demo-foot a { color: var(--accent); text-decoration: none; }
+    .demo-foot a:hover { text-decoration: underline; }
+    @media (max-width: 900px) { .demo-frame iframe { height: 1180px; } }
+
+    /* hardware */
+    .hw { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+    .hw-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .hw-gallery img { border-radius: var(--r2); aspect-ratio: 1; object-fit: cover; background: var(--panel); }
+    .hw-gallery img.wide { grid-column: span 2; aspect-ratio: 2.2; }
+    .hw ul { list-style: none; display: grid; gap: 14px; margin-top: 22px; }
+    .hw li { display: flex; gap: 14px; align-items: flex-start; color: var(--text); }
+    .hw li b { color: var(--ink); font-weight: 600; }
+    .hw li svg { width: 22px; height: 22px; flex: none; color: var(--accent-ink); margin-top: 3px; }
+    @media (max-width: 900px) { .hw { grid-template-columns: 1fr; } }
+
+    /* team */
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .member { background: #fff; border-radius: var(--r2); padding: 32px 26px; text-align: center; }
+    .avatar { width: 128px; height: 128px; border-radius: 50%; margin: 0 auto 18px; object-fit: cover; }
+    .member h3 { font-size: 1.3rem; }
+    .member .role { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; color: var(--accent-ink); margin: 6px 0 14px; }
+    .member p { color: var(--muted); font-size: .93rem; }
+    .linkedin { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; color: var(--ink); text-decoration: none; font-size: .9rem; font-weight: 500; border-bottom: 1px solid var(--line2); }
+    .linkedin:hover { border-color: var(--ink); }
+    @media (max-width: 900px) { .team-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; } }
+
+    /* contact */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .contact-grid .lead { margin-bottom: 24px; }
+    .contact-lines { display: grid; gap: 12px; margin-top: 10px; }
+    .contact-lines a, .contact-lines span { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 500; }
+    .contact-lines a:hover { color: var(--accent-ink); }
+    .contact-lines svg { width: 20px; height: 20px; color: var(--accent-ink); flex: none; }
+    form { background: var(--panel); border-radius: var(--r2); padding: 28px; display: grid; gap: 14px; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    input, textarea { width: 100%; padding: 14px 16px; background: #fff; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font: inherit; font-size: .98rem; transition: border-color .2s; }
+    input::placeholder, textarea::placeholder { color: var(--faint); }
+    input:focus, textarea:focus { outline: none; border-color: var(--ink); }
+    textarea { min-height: 140px; resize: vertical; }
+    form .btn { justify-content: center; width: 100%; }
+    form small { color: var(--faint); font-size: .8rem; text-align: center; }
+    @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; gap: 32px; } .row2 { grid-template-columns: 1fr; } }
+
+    /* footer */
+    footer { background: var(--panel); border-radius: var(--r) var(--r) 0 0; margin: 0 12px; padding: 40px 0; color: var(--muted); font-size: .9rem; }
+    .foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .foot .logo { font-size: 1rem; }
+    .foot .logo img { height: 28px; }
+    .foot a { text-decoration: none; color: var(--muted); }
+    .foot a:hover { color: var(--ink); }
+    @media (max-width: 600px) { :root { --gutter: 16px; } section { padding: 72px 0; } section.alt, section.dark, footer { margin-left: 8px; margin-right: 8px; } .pipeline em { display: none; } }
   </style>
 </head>
 <body>
-  <!-- Navigation -->
   <nav>
-    <img src="assets/logo.png" alt="IARI Labs">
-    <ul>
-      <li><a href="#what-we-do">What We Do</a></li>
-      <li><a href="#demo">Demo</a></li>
-      <li><a href="#prototype">Prototype</a></li>
-      <li><a href="#team">Team</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+    <div class="wrap nav-in">
+      <a href="#top" class="logo"><img src="assets/logo-mark-256.png" alt="IARI Labs"> IARI Labs</a>
+      <ul id="menu">
+        <li><a href="#videos">Watch</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#hardware">Hardware</a></li>
+        <li><a href="#team">Team</a></li>
+        <li class="nav-cta"><a href="#contact" class="btn btn-primary">Request a pilot</a></li>
+      </ul>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">☰</button>
+    </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <img src="assets/logo.png" alt="IARI Labs Logo">
-      <h1><span class="gradient-text">3D Spatial Acoustic Intelligence</span></h1>
-      <p>Detect anomalies, prevent failures, and optimize operations with our cutting-edge acoustic array technology powered by advanced beamforming using machine learning.</p>
-      <a href="#demo" class="cta-btn gradient-bg">See It In Action</a>
-    </div>
-  </section>
-
-  <!-- What We Do Section -->
-  <section id="what-we-do" class="what-we-do">
-    <div class="section-title">
-      <h2 class="gradient-text">What We Do</h2>
-      <p>Revolutionary anomaly detection using spatial acoustic intelligence</p>
-    </div>
-    <div class="what-we-do-content">
-      <h3>Acoustic Array Technology</h3>
-      <p>Our platform uses distributed microphone arrays to capture spatial sound information across industrial environments, enabling precise localization and identification of acoustic anomalies.</p>
-      <p>Using advanced beamforming algorithms and machine learning, we can detect equipment failures, leaks, and mechanical issues before they become critical problems.</p>
-      <ul class="feature-list">
-        <li>Real-time 3D sound source localization</li>
-        <li>Leak detection</li>
-        <li>Mechanical wear prediction</li>
-        <li>Predictive maintenance insights</li>
-      </ul>
-    </div>
-
-    <!-- Enhanced Carousel with Controls -->
-    <div class="carousel-wrapper">
-      <!-- Arrow Buttons -->
-      <button class="carousel-btn prev" onclick="moveSlide(-1)" aria-label="Previous slide">&#10094;</button>
-      <button class="carousel-btn next" onclick="moveSlide(1)" aria-label="Next slide">&#10095;</button>
-
-      <!-- Images -->
-      <div class="carousel">
-        <img src="assets/gif1.jpg" alt="Acoustic Detection visualization showing 3D sound localization">
-        <img src="assets/gif2.jpg" alt="Beamforming technology detecting equipment anomalies">
-        <img src="assets/gif3.jpg" alt="Real-time acoustic monitoring dashboard">
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="wrap">
+      <div class="eyebrow">Acoustic camera · Edge AI · Industrial monitoring</div>
+      <h1>See the sound.<br><span class="grad-text">Find the fault first.</span></h1>
+      <p class="lead">IARI Labs builds acoustic cameras for industry. A 60‑microphone array and an edge processor turn every machine's sound into a live map: where it comes from, what it is, and when it changed. No contact with the machine, no cloud.</p>
+      <div class="hero-cta">
+        <a href="#videos" class="btn btn-primary"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Watch the demo</a>
+        <a href="#contact" class="btn btn-ghost">Request a pilot</a>
       </div>
-
-      <!-- Dot Indicators -->
-      <div class="carousel-dots">
-        <span class="carousel-dot active" onclick="goToSlide(0)" aria-label="Go to slide 1"></span>
-        <span class="carousel-dot" onclick="goToSlide(1)" aria-label="Go to slide 2"></span>
-        <span class="carousel-dot" onclick="goToSlide(2)" aria-label="Go to slide 3"></span>
+      <div class="hero-media reveal in">
+        <video autoplay muted loop playsinline poster="assets/hero-poster.jpg" aria-hidden="true">
+          <source src="assets/hero-loop.mp4" type="video/mp4">
+        </video>
+        <div class="live-tag"><i></i> RECORDED FROM THE 60‑MIC PROTOTYPE</div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>60</b><span>MEMS microphones</span></div>
+        <div class="stat"><b>23<small>/s</small></b><span>sound maps per second</span></div>
+        <div class="stat"><b>100%</b><span>on‑device processing</span></div>
+        <div class="stat"><b>1 box</b><span>camera + sound map + AI</span></div>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- Demo Section -->
-  <section id="demo" class="demo-section">
-    <div class="section-title">
-      <h2>Live Demo</h2>
-      <p>Experience our Acoustic Monitoring System in action</p>
-    </div>
-    <div class="demo-frame">
-      <iframe src="demo/index.html" title="Acoustic Monitoring System Demo"></iframe>
-    </div>
-  </section>
-
-  <!-- Beamforming Prototype Section -->
-  <section id="prototype" class="beamforming">
-    <div class="section-title">
-      <h2 class="gradient-text">Beamforming Prototype</h2>
-      <p>See our acoustic array hardware in development</p>
-    </div>
-    <div class="video-container">
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/b0D928bSs8o?autoplay=1&mute=1"
-          title="IARI Labs Beamforming Prototype Demo Video 1"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+  <!-- VIDEOS -->
+  <section id="videos" class="alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Watch</div>
+        <h2>Real footage. <span class="grad-text">No simulations.</span></h2>
+        <p class="lead">Everything below was recorded on our own prototype hardware.</p>
       </div>
 
-      <!-- Video 2: New video -->
-      <div class="video-wrapper">
-        <iframe
-          src="https://www.youtube.com/embed/jlNcl9_JLg8?autoplay=1&mute=1"
-          title="IARI Labs Acoustic Array Hardware Development Video 2"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
+      <div class="featured reveal">
+        <div class="yt" data-id="gcTN-5uAErs" data-title="IARI Labs — ML beamforming and sound-signature classification">
+          <img src="assets/video-gcTN-5uAErs.jpg" alt="Acoustic camera prototype locating and naming a sound in the lab" loading="lazy">
+          <span class="badge new">NEW · OCT 2026</span>
+          <button class="play" aria-label="Play: ML beamforming and sound-signature classification"></button>
+        </div>
+        <div class="featured-text">
+          <h3>Locate it, then name it</h3>
+          <p>The 60‑microphone prototype finds a sound in the room and labels it live: vacuum, alarm, rain. Beamforming runs on the FPGA; a neural network on the processor's NPU recognises the sound signature.</p>
+          <ul>
+            <li>Live camera image with the sound map overlaid</li>
+            <li>Source position tracked at 23 maps per second</li>
+            <li>Classification on the device, every half second</li>
+            <li>One cable out: H.264 video stream</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="vgrid reveal">
+        <div class="vcard">
+          <div class="yt" data-id="jlNcl9_JLg8" data-title="IARI Labs — 60-microphone beamforming demo">
+            <img src="assets/video-jlNcl9_JLg8.jpg" alt="60-microphone beamforming demo" loading="lazy">
+            <button class="play" aria-label="Play: 60-microphone beamforming demo"></button>
+          </div>
+          <h4>60‑microphone beamforming</h4>
+          <p>The full hexagonal array tracking a source in real time.</p>
+        </div>
+        <div class="vcard">
+          <div class="yt" data-id="b0D928bSs8o" data-title="IARI Labs — 8-microphone beamforming demo">
+            <img src="assets/video-b0D928bSs8o.jpg" alt="8-microphone beamforming prototype" loading="lazy">
+            <button class="play" aria-label="Play: 8-microphone beamforming demo"></button>
+          </div>
+          <h4>Where it started: 8 microphones</h4>
+          <p>The first proof of concept of our beamforming pipeline.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Team Section -->
-  <section id="team" class="team">
-    <div class="section-title">
-      <h2 class="gradient-text">Our Team</h2>
-      <p>The people behind IARI Labs</p>
-    </div>
-    <div class="team-grid">
-      <div class="team-card">
-        <img src="assets/camilo.png" alt="Camilo Soto" class="team-avatar">
-        <h3>Camilo Soto</h3>
-        <div class="role">CEO</div>
-        <p>Computer scientist with 10+ years of experience in FPGAs, embedded systems, and computer vision. Passionate about bringing complex algorithms to hardware for real-world impact.</p>
-        <a href="https://www.linkedin.com/in/tucanae47/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
+  <!-- TECHNOLOGY -->
+  <section id="technology">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">How it works</div>
+        <h2>A camera that <span class="grad-text">sees sound</span></h2>
+        <p class="lead">Three stages, all inside one device. The output is a picture of your floor with every sound source located and labelled.</p>
       </div>
-      <div class="team-card">
-        <img src="assets/andres.png" alt="Andres Calderon" class="team-avatar">
-        <h3>Andrés Calderón</h3>
-        <div class="role">CTO</div>
-        <p>Computer scientist with 20+ years building devices from microcontrollers to FPGAs and neural accelerators. Specializes in signal processing and AI inference on edge devices.</p>
-        <a href="https://www.linkedin.com/in/andres-calderen-de-restrepo/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="pic"><img src="assets/array-front.jpg" alt="Hexagonal 60-microphone array PCB designed by IARI Labs" loading="lazy"><span class="n">1</span></div>
+          <div class="body"><h3>Capture with 60 ears</h3><p>A hexagonal array of 60 MEMS microphones, designed in‑house, listens to the whole scene at once, from a hum at a few hundred hertz to a hiss above 10 kHz.</p></div>
+        </div>
+        <div class="step reveal">
+          <div class="pic"><img src="assets/soundmap-lab.jpg" alt="Sound map overlaid on the camera image: a speaker lights up in yellow" loading="lazy"><span class="n">2</span></div>
+          <div class="body"><h3>Locate in hardware</h3><p>An FPGA combines all channels into a sound‑power map 23 times a second and overlays it on the camera image. The bright spot is the source; the crosshair is its peak.</p></div>
+        </div>
+        <div class="step reveal">
+          <div class="pic"><img src="assets/soundmap-label.jpg" alt="The prototype labelling a located sound as VACUUM" loading="lazy"><span class="n">3</span></div>
+          <div class="body"><h3>Classify at the edge</h3><p>A compact neural network on the processor's NPU recognises the sound signature and tags it on screen. Nothing leaves the device unless you want it to.</p></div>
+        </div>
       </div>
-      <div class="team-card">
-        <img src="assets/carlos.png" alt="Carlos Camargo, Phd" class="team-avatar">
-        <h3>Carlos Camargo, Phd</h3>
-        <div class="role">CHO</div>
-        <p>Electrical engineer with 20+ years of experience in embedded systems, Linux embedded, and HW/SW co-design. Bridges hardware and software to create cohesive system architectures.</p>
-        <a href="https://www.linkedin.com/in/carlos-camargo-8031b943/" target="_blank" rel="noopener noreferrer" class="linkedin-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0077B5" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
+      <div class="pipeline reveal">
+        <span>60 MEMS mics</span><em>→</em><span>FPGA beamformer</span><em>→</em><span>Edge SoC + NPU</span><em>→</em><span>Sound map · class · position</span><em>→</em><span>Alerts & integrations</span>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="contact">
-    <div class="section-title">
-      <h2 class="gradient-text">Contact Us</h2>
-      <p>Get in touch to learn how acoustic intelligence can transform your operations</p>
+  <!-- INDUSTRIES -->
+  <section id="industries" class="alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Industries</div>
+        <h2>Built for plants that <span class="grad-text">cannot afford surprises</span></h2>
+        <p class="lead">Most failures are audible before they are visible. An acoustic camera turns that into a picture your maintenance team can act on.</p>
+      </div>
+      <div class="cards">
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12h4l2-6 3 12 2-6h5"/></svg></div>
+          <h3>Compressed air &amp; gas leaks</h3>
+          <p>Leaks hiss at frequencies the array pinpoints from across the hall, while the line keeps running.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v3M12 17v3M4 12h3M17 12h3"/></svg></div>
+          <h3>Rotating machinery</h3>
+          <p>Bearings, gearboxes, pumps and fans change their sound long before they stop. The camera shows which one.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 14h6l-1 8 9-12h-6z"/></svg></div>
+          <h3>Electrical assets</h3>
+          <p>Partial discharge and arcing in switchgear, insulators and transformers are audible before they are visible.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12h4M17 12h4M9 7v10M15 7v10M9 12h6"/></svg></div>
+          <h3>Valves, steam &amp; HVAC</h3>
+          <p>Passing valves, failed steam traps and chattering actuators each have a signature of their own.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg></div>
+          <h3>Safety &amp; abnormal events</h3>
+          <p>Impacts, alarms and unexpected noises, located and logged together with a picture of where they happened.</p>
+        </div>
+        <div class="card reveal">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 18V9M9 18V5M14 18v-8M19 18v-4"/></svg></div>
+          <h3>Noise mapping</h3>
+          <p>Find the dominant sources on a floor, rank them, and prove that the fix worked.</p>
+        </div>
+      </div>
     </div>
-    <form class="contact-form" action="mailto:info@iari.io" method="post" enctype="text/plain">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="email" name="email" placeholder="Your Email" required>
-      <input type="text" name="subject" placeholder="Subject">
-      <textarea name="message" placeholder="Your Message" required></textarea>
-      <button type="submit" class="gradient-bg">Send Message</button>
-    </form>
   </section>
 
-  <!-- Footer -->
-  <footer class="gradient-bg">
-    <div style="background: white; padding: 16px 24px; border-radius: 12px; display: inline-block; margin-bottom: 16px;">
-      <img src="assets/logo.png" alt="IARI Labs" style="height: 50px; display: block;">
+  <!-- DEMO -->
+  <section id="demo" class="dark">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Interactive demo</div>
+        <h2>Put a source on the floor. <span class="grad-text">Watch it light up.</span></h2>
+        <p class="lead">A simulated plant driven by the same ideas as our prototype. Click a machine or move your cursor over the scene, and watch the sound map, the spectrum and the classifier respond.</p>
+      </div>
+      <div class="demo-frame reveal">
+        <iframe id="demoFrame" src="demo/index.html" title="IARI Labs interactive acoustic camera demo" loading="lazy"></iframe>
+      </div>
+      <div class="demo-foot">
+        <span>Simulation for illustration. The videos above show the real device.</span>
+        <a href="demo/index.html" target="_blank" rel="noopener">Open the demo full screen ↗</a>
+      </div>
     </div>
-    <p style="margin-top: 8px;"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cda4a3aba28da4acbfa4e3a4a2">[email&#160;protected]</a></p>
-    <p>&copy; 2026 IARI Labs. All rights reserved.</p>
+  </section>
+
+  <!-- HARDWARE -->
+  <section id="hardware">
+    <div class="wrap">
+      <div class="hw">
+        <div class="hw-gallery reveal">
+          <img src="assets/array-front.jpg" alt="Front of the 60-microphone array board" loading="lazy">
+          <img src="assets/array-back.jpg" alt="Back of the 60-microphone array board with the MEMS microphones" loading="lazy">
+          <img src="assets/arrays-row.jpg" class="wide" alt="A batch of array boards" loading="lazy">
+        </div>
+        <div class="reveal">
+          <div class="eyebrow">Hardware</div>
+          <h2>We design the <span class="grad-text">whole stack</span></h2>
+          <p class="lead">From the microphone PCB to the FPGA logic to the model on the NPU. Owning every layer is what makes a real‑time acoustic camera fit in one small box.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>60‑channel hexagonal MEMS array</b> on a single board, with a camera at its centre.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>FPGA front‑end</b> that acquires all channels and computes the sound map in hardware.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Edge SoC with NPU</b> for sound‑signature classification and H.264 streaming.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span><b>Next:</b> time‑synchronised networks of cameras covering a whole plant (in development).</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="alt">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Team</div>
+        <h2>Hardware people, <span class="grad-text">end to end</span></h2>
+        <p class="lead">Decades of FPGAs, embedded Linux, signal processing and edge AI, in one small team that ships hardware.</p>
+      </div>
+      <div class="team-grid">
+        <div class="member reveal">
+          <img src="assets/team-camilo.jpg" alt="Camilo Soto" class="avatar" loading="lazy">
+          <h3>Camilo Soto</h3>
+          <div class="role">CEO</div>
+          <p>Computer scientist with 10+ years in FPGAs, embedded systems and computer vision. Brings complex algorithms to hardware for real‑world impact.</p>
+          <a href="https://www.linkedin.com/in/tucanae47/" target="_blank" rel="noopener noreferrer" class="linkedin"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+        </div>
+        <div class="member reveal">
+          <img src="assets/team-andres.jpg" alt="Andrés Calderón" class="avatar" loading="lazy">
+          <h3>Andrés Calderón</h3>
+          <div class="role">CTO</div>
+          <p>Computer scientist with 20+ years building devices from microcontrollers to FPGAs and neural accelerators. Signal processing and AI inference on edge devices.</p>
+          <a href="https://www.linkedin.com/in/andres-calderen-de-restrepo/" target="_blank" rel="noopener noreferrer" class="linkedin"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+        </div>
+        <div class="member reveal">
+          <img src="assets/team-carlos.jpg" alt="Carlos Camargo" class="avatar" loading="lazy">
+          <h3>Carlos Camargo, PhD</h3>
+          <div class="role">CHO</div>
+          <p>Electrical engineer with 20+ years in embedded systems, embedded Linux and HW/SW co‑design. Bridges hardware and software into cohesive system architectures.</p>
+          <a href="https://www.linkedin.com/in/carlos-camargo-8031b943/" target="_blank" rel="noopener noreferrer" class="linkedin"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div class="reveal">
+          <div class="eyebrow">Contact</div>
+          <h2>Let's put a camera <span class="grad-text">on your floor</span></h2>
+          <p class="lead">We are looking for pilot partners in manufacturing, energy and utilities. Tell us what keeps breaking, and we will tell you whether it can be heard.</p>
+          <div class="contact-lines">
+            <a href="mailto:info@iari.io"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg> info@iari.io</a>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg> Berlin‑Mitte, Germany</span>
+            <a href="https://www.linkedin.com/company/iari-labs" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> IARI Labs on LinkedIn</a>
+          </div>
+        </div>
+        <form id="contactForm" class="reveal" novalidate>
+          <div class="row2">
+            <input type="text" name="name" placeholder="Your name" required>
+            <input type="email" name="email" placeholder="Work email" required>
+          </div>
+          <input type="text" name="company" placeholder="Company / plant">
+          <textarea name="message" placeholder="What would you like to hear? Leaks, machines, electrical, something else…" required></textarea>
+          <button type="submit" class="btn btn-primary">Send message</button>
+          <small>Opens your email client with the message addressed to info@iari.io.</small>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap foot">
+      <a href="#top" class="logo"><img src="assets/logo-mark-256.png" alt=""> IARI Labs</a>
+      <div style="display:flex; gap:20px; flex-wrap:wrap">
+        <a href="mailto:info@iari.io">info@iari.io</a>
+        <a href="https://www.linkedin.com/company/iari-labs" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+      <p>&copy; 2026 IARI Labs · Berlin‑Mitte, Germany</p>
+    </div>
   </footer>
 
-  <!-- Carousel JavaScript -->
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const carousel = document.querySelector('.carousel');
-    const dots = document.querySelectorAll('.carousel-dot');
-    const totalSlides = document.querySelectorAll('.carousel img').length;
-    let currentSlide = 0;
-    let autoPlayInterval;
+  <script>
+    // mobile menu
+    const burger = document.getElementById('burger'), menu = document.getElementById('menu');
+    burger.addEventListener('click', () => { const o = menu.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
 
-    // Go to specific slide
-    function goToSlide(index) {
-      currentSlide = index;
-      updateCarousel();
-    }
+    // reveal on scroll
+    const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // Move slide by direction (-1 for prev, 1 for next)
-    function moveSlide(direction) {
-      currentSlide += direction;
+    // click-to-play YouTube (no third-party scripts until the visitor presses play)
+    document.querySelectorAll('.yt').forEach(box => {
+      box.addEventListener('click', () => {
+        const id = box.dataset.id, title = box.dataset.title || 'Video';
+        const f = document.createElement('iframe');
+        f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+        f.title = title; f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; f.allowFullscreen = true;
+        box.innerHTML = ''; box.appendChild(f); box.style.cursor = 'default';
+        if (typeof gtag === 'function') gtag('event', 'video_play', { video_id: id });
+      }, { once: true });
+    });
 
-      // Loop around
-      if (currentSlide < 0) currentSlide = totalSlides - 1;
-      if (currentSlide >= totalSlides) currentSlide = 0;
+    // demo iframe takes the height its content asks for
+    window.addEventListener('message', (e) => {
+      if (!e.data || e.data.type !== 'iari-demo-height' || !(e.data.h > 300)) return;
+      const f = document.getElementById('demoFrame'), h = Math.min(1500, Math.ceil(e.data.h));
+      if (Math.abs(f.clientHeight - h) > 4) f.style.height = h + 'px';
+    });
 
-      updateCarousel();
-    }
+    // contact form -> prefilled email
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const f = e.target, name = f.name.value.trim(), email = f.email.value.trim(), company = f.company.value.trim(), msg = f.message.value.trim();
+      if (!name || !email || !msg) { f.reportValidity(); return; }
+      const subject = encodeURIComponent(`IARI Labs — pilot enquiry${company ? ' from ' + company : ''}`);
+      const body = encodeURIComponent(`${msg}\n\n—\n${name}${company ? '\n' + company : ''}\n${email}`);
+      window.location.href = `mailto:info@iari.io?subject=${subject}&body=${body}`;
+      if (typeof gtag === 'function') gtag('event', 'contact_submit');
+    });
 
-    // Update carousel position and dots
-    function updateCarousel() {
-      carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-      // Update active dot
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlide);
-      });
-    }
-
-    // Auto-play (change slide every 5 seconds)
-    function startAutoPlay() {
-      autoPlayInterval = setInterval(() => moveSlide(1), 5000);
-    }
-
-    // Pause on hover
-    const wrapper = document.querySelector('.carousel-wrapper');
-    wrapper.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
-    wrapper.addEventListener('mouseleave', startAutoPlay);
-
-    // Start auto-play on load
-    startAutoPlay();
+    // the hero video is decorative: drop it on very small screens or when the visitor prefers less motion
+    const hv = document.querySelector('.hero-media video');
+    if (hv && (window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { hv.pause(); hv.removeAttribute('autoplay'); }
   </script>
 </body>
 </html>
