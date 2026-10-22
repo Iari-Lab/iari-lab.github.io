@@ -285,10 +285,13 @@
         <a href="#contact" class="btn btn-ghost">Request a pilot</a>
       </div>
       <div class="hero-media reveal in">
-        <video autoplay muted loop playsinline poster="assets/hero-poster.jpg" aria-hidden="true">
+        <!-- data-clips: the clips played in turn (space-separated); data-tags: one caption per clip, separated by | -->
+        <video autoplay muted playsinline poster="assets/hero-poster.jpg" aria-hidden="true"
+               data-clips="assets/hero-loop.mp4 assets/hero-loop-2.mp4"
+               data-tags="VACUUM · RAIN · ALARM — RECORDED FROM THE 60‑MIC PROTOTYPE | A MOVING SOURCE, TRACKED LIVE — RECORDED FROM THE 60‑MIC PROTOTYPE">
           <source src="assets/hero-loop.mp4" type="video/mp4">
         </video>
-        <div class="live-tag"><i></i> RECORDED FROM THE 60‑MIC PROTOTYPE</div>
+        <div class="live-tag"><i></i> <span>RECORDED FROM THE 60‑MIC PROTOTYPE</span></div>
       </div>
       <div class="stats">
         <div class="stat"><b>60</b><span>MEMS microphones</span></div>
@@ -361,7 +364,7 @@
           <div class="body"><h3>Capture with 60 ears</h3><p>A hexagonal array of 60 MEMS microphones, designed in‑house, listens to the whole scene at once, from a hum at a few hundred hertz to a hiss above 10 kHz.</p></div>
         </div>
         <div class="step reveal">
-          <div class="pic"><img src="assets/soundmap-lab.jpg" alt="Sound map overlaid on the camera image: a speaker lights up in yellow" loading="lazy"><span class="n">2</span></div>
+          <div class="pic"><img src="assets/soundmap-lab.jpg" alt="The spot and its label following a speaker carried across the view" loading="lazy"><span class="n">2</span></div>
           <div class="body"><h3>Locate in hardware</h3><p>An FPGA combines all channels into a sound‑power map 23 times a second and overlays it on the camera image. The bright spot is the source; the crosshair is its peak.</p></div>
         </div>
         <div class="step reveal">
@@ -588,9 +591,23 @@
       if (typeof gtag === 'function') gtag('event', 'contact_submit');
     });
 
-    // the hero video is decorative: drop it on very small screens or when the visitor prefers less motion
+    // the hero video: the clips in data-clips play in turn (one clip just loops), each with its caption from
+    // data-tags; it is decorative, so it stays still for visitors who prefer less motion
     const hv = document.querySelector('.hero-media video');
-    if (hv && (window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { hv.pause(); hv.removeAttribute('autoplay'); }
+    if (hv) {
+      const clips = (hv.dataset.clips || '').split(/\s+/).filter(Boolean);
+      const tags = (hv.dataset.tags || '').split('|').map(t => t.trim());
+      const cap = document.querySelector('.live-tag span');
+      let i = 0;
+      const show = () => { if (cap && tags[i]) cap.textContent = tags[i]; };
+      if (clips.length > 1) {
+        hv.addEventListener('ended', () => { i = (i + 1) % clips.length; hv.src = clips[i]; show(); hv.play().catch(() => {}); });
+      } else {
+        hv.loop = true;
+      }
+      show();
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.pause(); hv.removeAttribute('autoplay'); }
+    }
   </script>
 </body>
 </html>
