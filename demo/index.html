@@ -6,7 +6,7 @@
   <title>IARI Labs · Acoustic camera demo</title>
   <meta name="description" content="Interactive simulation of the IARI Labs acoustic camera: a plant floor where you place sound sources and watch the sound map, spectrum and classifier respond.">
   <link rel="icon" href="../assets/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
   <style>
     :root {
       --bg: #0b0b0a; --panel: #151514; --panel2: #1f1f1d; --line: rgba(255,255,255,0.09);
@@ -71,6 +71,8 @@
       .stats { display: none; }
       .log { height: 140px; }
     }
+      .legal-links { text-align: center; font-size: 12px; color: var(--muted); padding: 10px 0 18px; }
+    .legal-links a { color: var(--muted); }
   </style>
 </head>
 <body>
@@ -394,5 +396,8 @@
   setTimeout(postHeight, 600); setTimeout(postHeight, 2000);
 })();
 </script>
+  <!-- Impressum and privacy links when the demo is opened on its own (inside the main page they are in its footer) -->
+  <p class="legal-links" id="legal-links" hidden><a href="../impressum.html">Impressum</a> · <a href="../datenschutz.html">Privacy</a></p>
+  <script>if (window.top === window.self) document.getElementById('legal-links').hidden = false;</script>
 </body>
 </html>

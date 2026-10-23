@@ -5,14 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IARI Labs — Acoustic intelligence for industry</title>
 
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVN5NKC27N"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-NVN5NKC27N');
-  </script>
+  <!-- Google Analytics 4: loaded only after the visitor presses "Allow" (assets/consent.js, § 25 TDDDG) -->
+  <script src="assets/consent.js" defer></script>
 
   <!-- SEO -->
   <meta name="description" content="IARI Labs builds acoustic cameras for industry: a 60-microphone array and an edge processor that locate, classify and flag abnormal sounds in real time. Leaks, bearing wear, arcing and valve faults, found before they stop production.">
@@ -53,9 +47,10 @@
   }
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <!-- Fonts from this site, not from Google (no visitor data to Google before consent) -->
+  <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
 
   <style>
     /* Layout: white paper, grey rounded sheets for alternating sections, one black sheet for the demo. */
@@ -161,6 +156,8 @@
     .featured-text li::before { content: ""; position: absolute; left: 0; top: 10px; width: 12px; height: 2px; background: var(--accent); }
     .vgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
     .vcard .yt { border-radius: 16px; }
+    .yt-note { margin-top: 18px; font-size: .85rem; color: var(--muted); }
+    .yt-note a { color: var(--muted); }
     .vcard .yt .play { width: 54px; height: 54px; }
     .vcard .yt .play::after { border-width: 9px 0 9px 15px; }
     .vcard h4 { font-size: 1.1rem; margin: 14px 0 4px; }
@@ -355,6 +352,7 @@
           <p>The first proof of concept of our beamforming pipeline.</p>
         </div>
       </div>
+      <p class="yt-note">The videos are hosted on YouTube. Nothing is loaded from YouTube until you press play; then Google receives your IP address and may set cookies. <a href="datenschutz.html#youtube">Privacy notice</a></p>
     </div>
   </section>
 
@@ -554,6 +552,9 @@
       <div style="display:flex; gap:20px; flex-wrap:wrap">
         <a href="mailto:info@iari.io">info@iari.io</a>
         <a href="https://www.linkedin.com/company/iari-labs" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Privacy</a>
+        <a href="#" data-consent-open>Cookie settings</a>
       </div>
       <p>&copy; 2026 IARI Labs · Berlin‑Mitte, Germany</p>
     </div>
