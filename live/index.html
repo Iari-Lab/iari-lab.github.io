@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>IARI Live · the acoustic camera on your phone</title>
+  <meta name="description" content="IARI Live shows the IARI Labs acoustic camera on a phone: the picture, the sound map, the level, the spectrum and the classifier, streamed straight from the device on your Wi-Fi.">
+  <meta name="theme-color" content="#0d0d0c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="IARI Live">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="../assets/favicon.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="../assets/fonts/fonts.css">
+  <link rel="stylesheet" href="vendor/uPlot.min.css">
+  <link rel="stylesheet" href="live.css">
+  <script src="vendor/uPlot.iife.min.js"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="bar">
+      <a class="brand" href="../" aria-label="IARI Labs home"><img src="../assets/logo-mark-256.png" alt=""><span>IARI <b>Live</b></span></a>
+      <span class="chip" id="chip"><i></i><span id="chipText">Starting</span></span>
+      <div class="tools">
+        <button class="tb" id="btnView" type="button" title="Spots or the full map">Spots</button>
+        <button class="tb icon" id="btnFull" type="button" title="Full screen" aria-label="Full screen">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        </button>
+        <button class="tb primary" id="btnConnect" type="button">Connect</button>
+      </div>
+    </header>
+
+    <main class="stage" id="stage">
+      <canvas id="gl"></canvas>
+      <canvas id="ov"></canvas>
+    </main>
+
+    <section class="panel">
+      <div class="verdict">
+        <div>
+          <div class="k">Sound</div>
+          <div class="cls" id="cls">—</div>
+          <div class="pbar"><i id="pbar"></i></div>
+        </div>
+        <div class="lvl">
+          <div class="k">Level</div>
+          <div class="num" id="lvl">—</div>
+          <div class="sub" id="gate"></div>
+        </div>
+      </div>
+      <div class="card" id="cardLevel" data-empty="No level from this source yet">
+        <div class="k">Level over the room <span class="leg"><i class="a"></i>dB <i class="m"></i>coherence</span></div>
+        <div class="chart" id="chLevel"></div>
+      </div>
+      <div class="card" id="cardSpec" data-empty="No spectrum from this source yet">
+        <div class="k">Spectrum <span class="leg"><i class="a"></i>now <i class="m"></i>peak hold</span></div>
+        <div class="chart" id="chSpec"></div>
+      </div>
+      <div class="card">
+        <div class="k">Events</div>
+        <ol class="events" id="events"></ol>
+      </div>
+      <p class="stats" id="stats"></p>
+      <footer class="legal"><a href="../">iari.io</a> · <a href="../impressum.html">Impressum</a> · <a href="../datenschutz.html#live">Privacy</a></footer>
+    </section>
+  </div>
+
+  <dialog id="dlg" aria-labelledby="dlgTitle">
+    <div class="sheet">
+      <button class="close" id="dlgClose" type="button" aria-label="Close">×</button>
+      <h2 id="dlgTitle">Connect to a camera</h2>
+      <p class="muted">Your phone has to be on the same Wi‑Fi as the camera. <span id="platformHint"></span></p>
+      <label for="addr">Camera address</label>
+      <input id="addr" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="192.168.8.130 or acam.iari.io">
+      <div class="row">
+        <button class="btn primary" id="go" type="button">Connect</button>
+        <button class="btn" id="demo" type="button">Simulated stream</button>
+      </div>
+      <p class="err" id="err" hidden></p>
+      <p class="note" id="decNote" hidden></p>
+      <details>
+        <summary>How it connects</summary>
+        <ul>
+          <li><b>Android, Chrome:</b> the camera’s IP address is enough. Chrome asks once whether iari.io may reach devices on your local network; choose Allow.</li>
+          <li><b>iPhone and iPad:</b> every iOS browser blocks unencrypted local connections from a secure page, so the camera needs its secure name (wss://), for example <code>acam.iari.io</code>.</li>
+          <li><b>Private by design:</b> the page talks straight to the camera. The stream never passes through the internet or through us; the address is kept only in this browser.</li>
+          <li><b>As an app:</b> Share → Add to Home Screen (iPhone) or ⋮ → Install app (Android). It opens full screen and starts without internet.</li>
+        </ul>
+      </details>
+    </div>
+  </dialog>
+</body>
+</html>

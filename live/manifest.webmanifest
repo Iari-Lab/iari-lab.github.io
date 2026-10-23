@@ -1,0 +1,16 @@
+{
+  "name": "IARI Live",
+  "short_name": "IARI Live",
+  "description": "The IARI Labs acoustic camera on your phone: picture, sound map, level, spectrum and classifier, straight from the device.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d0d0c",
+  "theme_color": "#0d0d0c",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

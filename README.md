@@ -135,3 +135,22 @@ Analytics Admin → Data collection and modification → Data retention (2 month
   you have more than 10 employees).
 - Any new third-party service (form backend, newsletter, chat, maps, other analytics): add it to the privacy
   notice, and put it behind consent if it sets cookies or sends data before a click.
+
+## IARI Live (`live/`)
+
+The acoustic camera on a phone, as an installable web app: the camera's picture (H.264, decoded by the phone's
+hardware through WebCodecs), the sound map (WebGL2), the level and the spectrum (uPlot, in `live/vendor/`, MIT),
+the classifier's verdict. Static files, no build step.
+
+- `live/` with no parameters plays a simulation over a real frame of the lab; `?board=192.168.8.130` connects to a
+  camera (or to the lab bridge) on the visitor's Wi-Fi; `?replay=URL` plays a recorded session (`.acws`).
+- Android Chrome reaches a camera by its IP address after one "local network" prompt. iPhones need the camera's
+  secure name (`wss://`), because every iOS browser blocks unencrypted local connections from a secure page.
+- The stream goes from the camera to the phone directly, never through this site; the privacy notice's
+  "IARI Live" section says so.
+- Local test: `python3 -m http.server -d . 8000`, then `http://localhost:8000/live/` (localhost counts as secure,
+  so WebCodecs works).
+- The protocol (acam-ws v1), the bridge and the plan for the board side live in the acamera repository:
+  `docs/acam/phone_app_plan.md`, `sg2002/tools/web/acam_ws_bridge.py`.
+- `live/sw.js` is network-first: a new version shows on the next online visit and refreshes the offline copy.
+  Bump its `CACHE` name when files are removed or renamed, and list new files in `FILES`.
