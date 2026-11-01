@@ -34,33 +34,56 @@ GitHub issues and renews the site's certificate only while it can see its own IP
 records DNS-only (grey cloud) until GitHub shows "Enforce HTTPS" ticked, then switch the proxy on; SSL mode must
 be "Full (strict)", never "Flexible".
 
-Steps:
+Steps, in an order without downtime (on 1 Nov 2026 www.iari.io is served by GitHub, the apex redirects to www,
+the zone is at Namecheap):
 
-1. Cloudflare dashboard → Workers & Pages → Create → Pages → connect the GitHub repository
-   `Iari-Lab/iari-lab.github.io`: production branch `main`, build command empty, build output directory `/`.
-   Every push to `main` deploys; every other branch gets a preview URL (`<branch>.<project>.pages.dev`), which
-   is the easiest way to review `impressum` and `live-app` before merging.
-2. Custom domains → add `www.iari.io` and `iari.io`. Cloudflare will ask to move iari.io's DNS to its
-   nameservers (today Namecheap: `dns1/dns2.registrar-servers.com`). It imports the zone first: check that the
-   Google Workspace mail records (MX `smtp.google.com`, the SPF/DKIM/DMARC TXT records) came across before
-   changing the nameservers at Namecheap.
-   Without moving DNS: at Namecheap set CNAME `www` → `<project>.pages.dev` and a URL redirect for the apex;
-   then the apex rule in `_redirects` is not needed.
-3. SSL/TLS → "Full (strict)", and Edge Certificates → "Always Use HTTPS". HSTS comes from `_headers`.
-4. Once www.iari.io answers from Cloudflare: GitHub repository Settings → Pages → Source "None", so there is one
-   origin. `CNAME` can stay or go; it does nothing on Cloudflare.
-5. IARI Live (branch `live-app`): the app page comes from Cloudflare; the stream goes from the camera to the
-   phone on the local network and never touches Cloudflare. If `acam.iari.io` is created for iPhones (see
-   `docs/acam/phone_app_plan.md` in the acamera repository), make it a **DNS-only** record (grey cloud): its
-   target is a private address, which the proxy cannot reach.
-6. Cloudflare Web Analytics runs next to the consent-gated statistics (decided 1 Nov 2026: keep both). It is
-   cookieless, stores nothing on the device and keeps no IP address, so it needs no banner; the privacy notice
-   describes it under "Without cookies". Two ways to switch it on, use ONE:
-   - on Cloudflare Pages (or a proxied zone): the project's Metrics tab → enable Web Analytics; Cloudflare injects
-     the beacon at the edge and `CF_BEACON_TOKEN` in `assets/consent.js` stays empty;
-   - while GitHub still serves the site: Cloudflare dashboard → Analytics & Logs → Web Analytics → Add a site
-     (any hostname works, not only Cloudflare-hosted ones) → copy the token into `CF_BEACON_TOKEN`.
-   With both, every page view is counted twice. `_headers` already allows the beacon in the CSP.
+0. Push `main` and the branches to review (`impressum`, `live-app`). Nothing below changes the live site before
+   step 4.
+1. **Cloudflare account → Add a site → `iari.io`, Free plan.** Cloudflare scans the zone; compare with Namecheap's
+   Advanced DNS page. Live records on 1 Nov 2026, all of which the scan must show (add by hand what it missed):
+   - `A @` → 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153 (GitHub Pages)
+   - `CNAME www` → `iari-lab.github.io`
+   - `MX @` → `1 smtp.google.com` (Google Workspace)
+   - `TXT google._domainkey` → the two DKIM keys
+   Set `A @` and `CNAME www` to **DNS only** (grey cloud): proxied, GitHub could not renew its certificate, and
+   step 4 replaces them anyway. Add the two mail records that are MISSING today (without them, mail from
+   info@iari.io is more likely to land in spam):
+   - `TXT @` → `v=spf1 include:_spf.google.com ~all`
+   - `TXT _dmarc` → `v=DMARC1; p=none; rua=mailto:info@iari.io` (p=none only reports; tighten to quarantine later)
+2. **Nameservers.** Cloudflare shows two (`<name>.ns.cloudflare.com`). Namecheap → Domain List → Manage →
+   Nameservers → Custom DNS → paste both → save. Cloudflare mails "zone active" within minutes to a day; the site
+   keeps coming from GitHub meanwhile, because the records still point there.
+   (Not moving the nameservers is possible: at Namecheap `CNAME www` → `iari-web.pages.dev` and a URL redirect
+   for the apex; Cloudflare then verifies the custom domain with a TXT record. But no proxy, no Web Analytics
+   injection, no Cloudflare DNS API for `acam.iari.io`.)
+3. **Pages project.** Workers & Pages → Create → Pages → Connect to Git → GitHub → install the "Cloudflare Pages"
+   GitHub App on the `Iari-Lab` organisation (an owner of the organisation must approve; grant it only this
+   repository) → choose `iari-lab.github.io` → project name `iari-web` → production branch `main` → framework
+   preset None, build command empty, build output directory `/` → Save and Deploy. The result:
+   `https://iari-web.pages.dev`, and every other branch at `https://<branch>.iari-web.pages.dev` (check
+   `impressum` and `live-app` there). `_headers`, `_redirects` and `404.html` are active on these URLs, so this
+   is the moment for the CSP console check.
+4. **Custom domains.** Project → Custom domains → Set up a custom domain → `www.iari.io`: Cloudflare offers to
+   replace the GitHub `CNAME www` with one to `iari-web.pages.dev`; accept → Activate. Then `iari.io`: it replaces
+   the four `A` records with a flattened CNAME. SSL/TLS → Overview → **Full (strict)**; Edge Certificates →
+   **Always Use HTTPS**. Check: `curl -sI https://www.iari.io | grep -i '^server'` says `cloudflare` (today:
+   `GitHub.com`), and `https://iari.io/` answers 301 to www (now from `_redirects`).
+5. **GitHub.** Repository → Settings → Pages → Source → None, so there is one origin. Delete `CNAME` from the
+   repo (it was GitHub's).
+6. **Web Analytics.** Project → Metrics → Enable Web Analytics: Cloudflare injects the beacon at the edge and
+   `CF_BEACON_TOKEN` in `assets/consent.js` stays empty. The consent-gated statistics are untouched.
+7. **Optional, the registration itself.** Cloudflare Registrar takes `.io` (listed at cloudflare.com/tld-policies)
+   at cost price, but only after the zone is on Cloudflare's nameservers (step 2) and only if the domain was not
+   registered or transferred in the last 60 days. Namecheap → Domain → Sharing & Transfer → Domain Lock off →
+   request the Auth/EPP code (comes by e-mail); Cloudflare → Domain Registration → Transfer Domains → `iari.io` →
+   paste the code → pay one year's renewal (added to the current term) → approve Namecheap's confirmation e-mail.
+   The site is not affected; renewal and the WHOIS contact move to Cloudflare. Keep Namecheap's auto-renew on
+   until the transfer completes.
+
+IARI Live (branch `live-app`): the app page comes from Cloudflare; the stream goes from the camera to the phone on
+the local network and never touches Cloudflare. If `acam.iari.io` is created for iPhones (see
+`docs/acam/phone_app_plan.md` in the acamera repository), it is a **DNS-only** `A` record (grey cloud) to the
+camera's private address, which the proxy cannot reach.
 
 ## Legal pages (Impressum, privacy notice, consent)
 
