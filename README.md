@@ -13,6 +13,27 @@ GitHub Pages (the `CNAME` file is GitHub's; Cloudflare ignores it). In the repo 
 - `_redirects`: `iari.io` → `www.iari.io` (both domains must be attached to the Pages project).
 - `404.html`: served by Cloudflare Pages for missing paths.
 
+What GitHub Pages cannot do, and Cloudflare adds (the reason to move):
+
+| | GitHub Pages | Cloudflare Pages |
+|---|---|---|
+| response headers (CSP, HSTS, Permissions-Policy) | none, not configurable | `_headers` |
+| cache lifetimes | fixed `max-age=600` for everything | per path (`_headers`: fonts and `live/vendor/` a year) |
+| redirects | apex ↔ www only (automatic) | `_redirects`, any path or domain |
+| preview of a branch | none (one branch = the site) | every branch at `<branch>.<project>.pages.dev` |
+| analytics | none | Web Analytics, cookieless, free |
+| edge protection | GitHub's own | WAF, bot and DDoS rules, rate limits, Access (password a preview) |
+| server-side code | none | Pages Functions / Workers (e.g. a token check for a customer's live stream) |
+| DNS | at Namecheap (API needs an IP allowlist) | Cloudflare DNS with a clean API: Let's Encrypt DNS-01 for `acam.iari.io` from any machine |
+| limits | 1 GB site, 100 GB/month soft, Jekyll build by default | 25 MiB per file, 20,000 files, unlimited bandwidth |
+
+Middle path, without moving the hosting: point iari.io's DNS at Cloudflare and proxy (orange cloud) the GitHub
+Pages records. Headers then come from Rules → Transform Rules, redirects from Redirect Rules, caching from
+Cache Rules, and Web Analytics from the dashboard; `_headers` and `_redirects` do nothing in that setup. Gotcha:
+GitHub issues and renews the site's certificate only while it can see its own IPs behind the name, so keep the
+records DNS-only (grey cloud) until GitHub shows "Enforce HTTPS" ticked, then switch the proxy on; SSL mode must
+be "Full (strict)", never "Flexible".
+
 Steps:
 
 1. Cloudflare dashboard → Workers & Pages → Create → Pages → connect the GitHub repository
@@ -32,8 +53,14 @@ Steps:
    phone on the local network and never touches Cloudflare. If `acam.iari.io` is created for iPhones (see
    `docs/acam/phone_app_plan.md` in the acamera repository), make it a **DNS-only** record (grey cloud): its
    target is a private address, which the proxy cannot reach.
-6. Optional, not done: Cloudflare Web Analytics is cookieless and needs no consent; it could replace the
-   statistics service and the banner altogether. The banner stays, as decided on 1 Nov 2026.
+6. Cloudflare Web Analytics runs next to the consent-gated statistics (decided 1 Nov 2026: keep both). It is
+   cookieless, stores nothing on the device and keeps no IP address, so it needs no banner; the privacy notice
+   describes it under "Without cookies". Two ways to switch it on, use ONE:
+   - on Cloudflare Pages (or a proxied zone): the project's Metrics tab → enable Web Analytics; Cloudflare injects
+     the beacon at the edge and `CF_BEACON_TOKEN` in `assets/consent.js` stays empty;
+   - while GitHub still serves the site: Cloudflare dashboard → Analytics & Logs → Web Analytics → Add a site
+     (any hostname works, not only Cloudflare-hosted ones) → copy the token into `CF_BEACON_TOKEN`.
+   With both, every page view is counted twice. `_headers` already allows the beacon in the CSP.
 
 ## Legal pages (Impressum, privacy notice, consent)
 
@@ -50,7 +77,8 @@ Added 22 Oct 2026, changed 1 Nov 2026; the reasoning is summarised here so it su
   the vendor: what is recorded, which cookies, that the data may leave the EU, how to withdraw. Technically it is
   still Google Analytics 4 (ID G-NVN5NKC27N), loaded only after "Allow". Art. 13(1)(e) GDPR asks for the recipients
   *or categories of recipients*; the notice names the category ("the statistics service that processes this data
-  for us").
+  for us"). Cloudflare Web Analytics (cookieless, no consent) runs next to it since 1 Nov 2026, described the
+  same way ("a cookieless statistics service", Art. 6(1)(f)).
 - The hosting paragraph names no vendor either, so the move from GitHub Pages to Cloudflare needs no edit there.
 
 **Still to fill:** the data-retention period in `datenschutz.html` (one yellow `<mark class="todo">`):

@@ -15,10 +15,19 @@
  * The banner's text describes what is done (visits are tracked, cookies are
  * stored) without naming the vendor, as decided on 1 Nov 2026; the privacy
  * notice (datenschutz.html#analytics) does the same.
+ *
+ * Next to it, Cloudflare Web Analytics (1 Nov 2026): a cookieless page-view
+ * count that stores nothing on the device and keeps no IP address, so it
+ * runs without the banner (Art. 6(1)(f) GDPR).  It needs the site's token
+ * from the Cloudflare dashboard, Analytics & Logs -> Web Analytics -> Add a
+ * site.  Leave CF_BEACON_TOKEN EMPTY when Cloudflare injects the beacon
+ * itself (a proxied zone, or a Pages project with Web Analytics switched
+ * on): two beacons count every view twice.
  */
 (function () {
   'use strict';
   var GA_ID = 'G-NVN5NKC27N';
+  var CF_BEACON_TOKEN = '';            // Cloudflare Web Analytics; '' = injected by Cloudflare, or off
   var KEY = 'iari-analytics-consent';
   var box = null;
 
@@ -105,6 +114,13 @@
       var t = e.target && e.target.closest && e.target.closest('[data-consent-open]');
       if (t) { e.preventDefault(); open(); }
     });
+    if (CF_BEACON_TOKEN) {
+      var cf = document.createElement('script');
+      cf.defer = true;
+      cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cf.setAttribute('data-cf-beacon', JSON.stringify({ token: CF_BEACON_TOKEN }));
+      document.head.appendChild(cf);
+    }
     var state = read();
     if (state === 'granted') loadAnalytics();
     else if (state !== 'denied') open();
