@@ -1,0 +1,3 @@
+# Cloudflare Pages redirects (GitHub Pages ignores this file).
+# The apex to www: both domains must be attached to the Pages project for this rule to apply.
+https://iari.io/* https://www.iari.io/:splat 301

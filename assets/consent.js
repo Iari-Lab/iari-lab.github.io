@@ -1,15 +1,20 @@
-/* consent.js: Google Analytics only after an explicit opt-in.
+/* consent.js: visitor statistics only after an explicit opt-in.
  *
- * Google Analytics sets cookies and sends usage data to Google, which German law
- * (§ 25 TDDDG) and the GDPR (Art. 6(1)(a)) allow only with the visitor's consent.
- * So the gtag.js tag is no longer in the pages: this script loads it only after
- * the visitor presses "Allow", and remembers the answer in localStorage
- * ("iari-analytics-consent" = granted | denied; storing the answer itself is
- * strictly necessary and needs no consent). Any element with data-consent-open
- * (the footer's "Cookie settings") asks again, so consent can be withdrawn as
- * easily as it was given (Art. 7(3) GDPR); declining deletes the _ga cookies.
- * The page's own gtag('event', ...) calls check typeof gtag first, so they do
- * nothing until consent.
+ * The statistics tag (Google Analytics 4 under the hood) sets cookies and sends
+ * usage data to a third party, which German law (§ 25 TDDDG) and the GDPR
+ * (Art. 6(1)(a)) allow only with the visitor's consent.  So the gtag.js tag is
+ * not in the pages: this script loads it only after the visitor presses
+ * "Allow", and remembers the answer in localStorage ("iari-analytics-consent" =
+ * granted | denied; storing the answer itself is strictly necessary and needs
+ * no consent).  Any element with data-consent-open (the footer's "Cookie
+ * settings") asks again, so consent can be withdrawn as easily as it was given
+ * (Art. 7(3) GDPR); declining deletes the _ga cookies.  The page's own
+ * gtag('event', ...) calls check typeof gtag first, so they do nothing until
+ * consent.
+ *
+ * The banner's text describes what is done (visits are tracked, cookies are
+ * stored) without naming the vendor, as decided on 1 Nov 2026; the privacy
+ * notice (datenschutz.html#analytics) does the same.
  */
 (function () {
   'use strict';
@@ -62,11 +67,12 @@
     box = document.createElement('div');
     box.className = 'consent';
     box.setAttribute('role', 'dialog');
-    box.setAttribute('aria-label', 'Analytics consent');
+    box.setAttribute('aria-label', 'Visitor statistics consent');
     box.innerHTML =
-      '<p><b>May we count your visit?</b> With your permission we use Google Analytics to see which parts of this ' +
-      'site are read. It sets cookies and sends usage data to Google, possibly to the USA. You can change your mind ' +
-      'at any time under “Cookie settings” at the bottom of the page. <a href="datenschutz.html#analytics">Privacy notice</a></p>' +
+      '<p><b>We track visits, as most websites do.</b> With your permission we record which pages are read and how ' +
+      'the site is used, and store the cookies this needs. Nothing is recorded until you allow it, and you can change ' +
+      'your mind at any time under “Cookie settings” at the bottom of the page. ' +
+      '<a href="datenschutz.html#analytics">Privacy notice</a></p>' +
       (state ? '<p class="consent-state">Current setting: ' + (state === 'granted' ? 'allowed' : 'declined') + '.</p>' : '') +
       '<div class="consent-btns"><button type="button" data-v="denied">Decline</button>' +
       '<button type="button" data-v="granted">Allow</button></div>';
